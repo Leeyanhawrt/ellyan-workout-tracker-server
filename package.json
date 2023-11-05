@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start:dev": "npx tsc -w & npx nodemon build",
-    "db:reset": "node db/scripts/resetdb.js"
+    "db:reset": "node db/scripts/resetdb.js",
+    "start": "node app.js"
   },
   "dependencies": {
     "@types/pg": "^8.10.7",
