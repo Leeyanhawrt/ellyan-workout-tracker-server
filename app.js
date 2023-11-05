@@ -14,7 +14,7 @@ const app = (0, express_1.default)();
 // Middleware functions
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: "https://ellyan.netlify.app/" }));
 // Resource Routes
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
