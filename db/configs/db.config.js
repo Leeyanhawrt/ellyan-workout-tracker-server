@@ -8,7 +8,7 @@ let pool;
 if (process.env.DATABASE_URL) {
     pool = new pg_1.Pool({
         connectionString: process.env.DATABASE_URL || "",
-        ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
+        ssl: { rejectUnauthorized: false },
     });
 }
 else {
