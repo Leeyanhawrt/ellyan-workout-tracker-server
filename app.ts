@@ -13,7 +13,7 @@ const app = express();
 // Middleware functions
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ origin: "https://ellyan.netlify.app/" }));
+app.use(cors({ origin: "https://ellyan.netlify.app" }));
 
 // Resource Routes
 const profileRoutes = require("./routes/users");
