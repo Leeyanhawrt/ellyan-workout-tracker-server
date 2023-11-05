@@ -9,7 +9,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const db_config_js_1 = __importDefault(require("./db/configs/db.config.js"));
 require("dotenv").config();
 const cors = require("cors");
-const PORT = process.env.SERVER_PORT || 8080;
+const $PORT = process.env.SERVER_PORT || 8080;
 const app = (0, express_1.default)();
 // Middleware functions
 app.use(body_parser_1.default.json());
@@ -21,4 +21,4 @@ const testimonialRoutes = require("./routes/testimonials");
 // Resource Mounting
 app.use("/user", profileRoutes(db_config_js_1.default));
 app.use("/testimonial", testimonialRoutes(db_config_js_1.default));
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+app.listen($PORT, () => console.log(`Listening on ${$PORT}`));

@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const cors = require("cors");
 
-const PORT = process.env.SERVER_PORT || 8080;
+const $PORT = process.env.SERVER_PORT || 8080;
 
 const app = express();
 
@@ -23,4 +23,4 @@ const testimonialRoutes = require("./routes/testimonials");
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+app.listen($PORT, () => console.log(`Listening on ${$PORT}`));
