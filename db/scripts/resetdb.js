@@ -20,6 +20,9 @@ const connObj = {
     password: DB_PASSWORD,
     port: DB_PORT,
     database: DB_DATABASE,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 };
 const client = new Client(connObj);
 const runMigrations = () => __awaiter(void 0, void 0, void 0, function* () {

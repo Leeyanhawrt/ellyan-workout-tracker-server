@@ -9,7 +9,7 @@ let pool: Pool;
 if (process.env.DATABASE_URL) {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL || "",
-    ssl: { rejectUnauthorized: false },
+    ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
   });
 } else {
   pool = new Pool({
