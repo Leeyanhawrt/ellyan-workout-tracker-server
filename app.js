@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // // Express and Database Setup
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const db_config_js_1 = __importDefault(require("./db/configs/db.config.js"));
+const db_config_js_1 = __importDefault(require("./configs/db.config.js"));
+const cors_js_1 = __importDefault(require("./configs/cors.js"));
 require("dotenv").config();
 const cors = require("cors");
 const PORT = process.env.PORT || 8080;
@@ -14,7 +15,7 @@ const app = (0, express_1.default)();
 // Middleware functions
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
-app.use(cors({ origin: "https://ellyan.netlify.app" }));
+(0, cors_js_1.default)(app);
 // Resource Routes
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");

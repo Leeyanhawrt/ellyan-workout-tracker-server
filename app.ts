@@ -1,7 +1,8 @@
 // // Express and Database Setup
 import express from "express";
 import bodyParser from "body-parser";
-import pool from "./db/configs/db.config.js";
+import pool from "./configs/db.config.js";
+import configureCors from "./configs/cors.js";
 require("dotenv").config();
 
 const cors = require("cors");
@@ -13,7 +14,7 @@ const app = express();
 // Middleware functions
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ origin: "https://ellyan.netlify.app" }));
+configureCors(app);
 
 // Resource Routes
 const profileRoutes = require("./routes/users");
