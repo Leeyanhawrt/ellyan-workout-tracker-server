@@ -9,7 +9,6 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const db_config_js_1 = __importDefault(require("./configs/db.config.js"));
 const cors_js_1 = __importDefault(require("./configs/cors.js"));
 require("dotenv").config();
-const cors = require("cors");
 const PORT = process.env.PORT || 8080;
 const app = (0, express_1.default)();
 // Middleware functions
