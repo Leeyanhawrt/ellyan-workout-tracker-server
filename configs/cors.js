@@ -5,6 +5,8 @@ const configureCors = (app) => {
     if (process.env.NODE_ENV === "development") {
         app.use(cors({ origin: "http://localhost:5173" }));
     }
-    app.use(cors({ origin: "https://ellyan.netlify.app" }));
+    else {
+        app.use(cors({ origin: "https://ellyan.netlify.app" }));
+    }
 };
 exports.default = configureCors;
