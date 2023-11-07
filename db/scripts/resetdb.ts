@@ -3,7 +3,8 @@ const { Client } = require("pg");
 const SCHEMA_PATH = "./db/schema";
 const SEEDS_PATH = "./db/seeds";
 
-const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT } = process.env;
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT, NODE_ENV } =
+  process.env;
 const fs = require("fs").promises;
 
 const connObj = {
@@ -12,9 +13,7 @@ const connObj = {
   password: DB_PASSWORD,
   port: DB_PORT,
   database: DB_DATABASE,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: NODE_ENV !== "development" ? { rejectUnauthorized: false } : null,
 };
 
 const client = new Client(connObj);
