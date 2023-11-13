@@ -16,9 +16,11 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 (0, cors_js_1.default)(app);
 // Resource Routes
+const authenticationRoutes = require("./routes/jwtAuth");
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
 // Resource Mounting
+app.use("/auth", authenticationRoutes(db_config_js_1.default));
 app.use("/user", profileRoutes(db_config_js_1.default));
 app.use("/testimonial", testimonialRoutes(db_config_js_1.default));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

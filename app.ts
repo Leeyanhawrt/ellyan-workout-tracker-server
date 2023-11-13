@@ -15,10 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 configureCors(app);
 
 // Resource Routes
+const authenticationRoutes = require("./routes/jwtAuth");
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
 
 // Resource Mounting
+app.use("/auth", authenticationRoutes(pool));
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
 
