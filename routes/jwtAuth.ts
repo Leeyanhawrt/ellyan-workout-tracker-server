@@ -6,6 +6,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utilities/jwtGenerator");
 const validInfo = require("../middleware/loginValidation");
+const authorization = require("../middleware/authorization");
 
 module.exports = (pool: Pool) => {
   /* REGISTRATION */
@@ -69,6 +70,19 @@ module.exports = (pool: Pool) => {
       res.status(500).send("Server Error User Login");
     }
   });
+
+  router.get(
+    "/is-verified",
+    authorization,
+    async (req: Request, res: Response) => {
+      try {
+        res.json(true);
+      } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error Checking Authorization");
+      }
+    }
+  );
 
   return router;
 };

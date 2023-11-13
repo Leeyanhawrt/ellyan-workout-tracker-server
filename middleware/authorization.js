@@ -17,11 +17,12 @@ module.exports = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         if (!jwtToken) {
             return res.status(403).json("Not Authorized");
         }
-        const payload = jwt.verify(jwtToken, process.env.JWT_SECRET_ACCESS_KEY);
-        req.user = payload.user;
+        const verify = jwt.verify(jwtToken, process.env.JWT_SECRET_ACCESS_KEY);
+        req.user = verify.user;
+        next();
     }
     catch (err) {
         console.log(err);
-        return res.status(403).json("Not Authorized");
+        return res.status(403).json("Token Invalid");
     }
 });

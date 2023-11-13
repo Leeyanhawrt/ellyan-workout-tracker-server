@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 
 require("dotenv").config();
 
+const jwt = require("jsonwebtoken");
+
 declare module "express" {
   interface Request {
     user?: User;
@@ -16,8 +18,6 @@ interface User {
   password: string;
 }
 
-const jwt = require("jsonwebtoken");
-
 module.exports = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const jwtToken = req.header("token");
@@ -26,11 +26,12 @@ module.exports = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(403).json("Not Authorized");
     }
 
-    const payload = jwt.verify(jwtToken, process.env.JWT_SECRET_ACCESS_KEY);
+    const verify = jwt.verify(jwtToken, process.env.JWT_SECRET_ACCESS_KEY);
 
-    req.user = payload.user;
+    req.user = verify.user;
+    next();
   } catch (err) {
     console.log(err);
-    return res.status(403).json("Not Authorized");
+    return res.status(403).json("Token Invalid");
   }
 };
