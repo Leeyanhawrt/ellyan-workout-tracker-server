@@ -1,15 +1,15 @@
-import { hash } from "bcrypt";
 import express from "express";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { Pool } from "pg";
 
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utilities/jwtGenerator");
+const validInfo = require("../middleware/loginValidation");
 
 module.exports = (pool: Pool) => {
   /* REGISTRATION */
-  router.post("/register", async (req: Request, res: Response) => {
+  router.post("/register", validInfo, async (req: Request, res: Response) => {
     try {
       const { firstName, lastName, email, password } = req.body;
       const user = await pool.query("SELECT * FROM users WHERE email = $1", [
@@ -40,7 +40,7 @@ module.exports = (pool: Pool) => {
   });
 
   /* LOGIN */
-  router.post("/login", async (req: Request, res: Response) => {
+  router.post("/login", validInfo, async (req: Request, res: Response) => {
     try {
       const { email, password } = req.body;
 

@@ -16,9 +16,10 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utilities/jwtGenerator");
+const validInfo = require("../middleware/loginValidation");
 module.exports = (pool) => {
     /* REGISTRATION */
-    router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    router.post("/register", validInfo, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { firstName, lastName, email, password } = req.body;
             const user = yield pool.query("SELECT * FROM users WHERE email = $1", [
@@ -40,7 +41,7 @@ module.exports = (pool) => {
         }
     }));
     /* LOGIN */
-    router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    router.post("/login", validInfo, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { email, password } = req.body;
             const user = yield pool.query("SELECT * FROM users WHERE email = $1", [
