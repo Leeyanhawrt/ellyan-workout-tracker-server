@@ -14,12 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
+const authorization = require("../middleware/authorization");
 module.exports = (pool) => {
-    /* GET all users */
-    router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    router.get("/", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const data = yield pool.query(`SELECT * FROM users`);
-            res.status(200).send(data.rows);
+            const user = yield pool.query("SELECT first_name FROM users WHERE id = $1", [req.user]);
+            res.json(user.rows[0]);
         }
         catch (err) {
             console.log(err);

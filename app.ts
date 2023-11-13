@@ -18,9 +18,11 @@ configureCors(app);
 const authenticationRoutes = require("./routes/jwtAuth");
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
+const dashboardRoutes = require("./routes/dashboard.js");
 
 // Resource Mounting
 app.use("/auth", authenticationRoutes(pool));
+app.use("/dashboard,", dashboardRoutes(pool));
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
 
