@@ -64,7 +64,7 @@ module.exports = (pool: Pool) => {
 
       const token = jwtGenerator(user.rows[0].id);
 
-      res.json(token);
+      res.json({ token });
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error User Login");

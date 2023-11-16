@@ -56,7 +56,7 @@ module.exports = (pool) => {
                 return res.status(401).json("Password or Email is incorrect");
             }
             const token = jwtGenerator(user.rows[0].id);
-            res.json(token);
+            res.json({ token });
         }
         catch (err) {
             console.log(err);
