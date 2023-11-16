@@ -28,12 +28,12 @@ module.exports = (pool: Pool) => {
 
       const newUser = await pool.query(
         "INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
-        [firstName, lastName, email, hashedPassword]
+        [firstName, lastName, email.toLowerCase(), hashedPassword]
       );
 
       const token = jwtGenerator(newUser.rows[0].id);
 
-      res.json(token);
+      res.json({ token });
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error User Creation");
@@ -46,7 +46,7 @@ module.exports = (pool: Pool) => {
       const { email, password } = req.body;
 
       const user = await pool.query("SELECT * FROM users WHERE email = $1", [
-        email,
+        email.toLowerCase(),
       ]);
 
       if (user.rows.length === 0) {
@@ -59,7 +59,7 @@ module.exports = (pool: Pool) => {
       );
 
       if (!validPassword) {
-        res.status(401).json("Password or Email is incorrect");
+        return res.status(401).json("Password or Email is incorrect");
       }
 
       const token = jwtGenerator(user.rows[0].id);

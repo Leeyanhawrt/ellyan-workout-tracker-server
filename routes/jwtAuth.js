@@ -32,9 +32,9 @@ module.exports = (pool) => {
             const saltRound = 10;
             const salt = yield bcrypt.genSalt(saltRound);
             const hashedPassword = yield bcrypt.hash(password, salt);
-            const newUser = yield pool.query("INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *", [firstName, lastName, email, hashedPassword]);
+            const newUser = yield pool.query("INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *", [firstName, lastName, email.toLowerCase(), hashedPassword]);
             const token = jwtGenerator(newUser.rows[0].id);
-            res.json(token);
+            res.json({ token });
         }
         catch (err) {
             console.log(err);
@@ -46,14 +46,14 @@ module.exports = (pool) => {
         try {
             const { email, password } = req.body;
             const user = yield pool.query("SELECT * FROM users WHERE email = $1", [
-                email,
+                email.toLowerCase(),
             ]);
             if (user.rows.length === 0) {
                 return res.status(401).json("Password or Email is incorrect");
             }
             const validPassword = yield bcrypt.compare(password, user.rows[0].password);
             if (!validPassword) {
-                res.status(401).json("Password or Email is incorrect");
+                return res.status(401).json("Password or Email is incorrect");
             }
             const token = jwtGenerator(user.rows[0].id);
             res.json(token);
