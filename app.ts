@@ -22,7 +22,7 @@ const dashboardRoutes = require("./routes/dashboard.js");
 
 // Resource Mounting
 app.use("/auth", authenticationRoutes(pool));
-app.use("/dashboard,", dashboardRoutes(pool));
+app.use("/dashboard", dashboardRoutes(pool));
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
 
