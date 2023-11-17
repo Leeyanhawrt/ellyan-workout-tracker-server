@@ -13,8 +13,9 @@ module.exports = (pool: Pool) => {
   router.post("/register", validInfo, async (req: Request, res: Response) => {
     try {
       const { firstName, lastName, email, password } = req.body;
+
       const user = await pool.query("SELECT * FROM users WHERE email = $1", [
-        email,
+        email.toLowerCase(),
       ]);
 
       if (user.rows.length !== 0) {

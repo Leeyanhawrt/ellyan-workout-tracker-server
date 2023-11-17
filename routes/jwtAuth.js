@@ -24,7 +24,7 @@ module.exports = (pool) => {
         try {
             const { firstName, lastName, email, password } = req.body;
             const user = yield pool.query("SELECT * FROM users WHERE email = $1", [
-                email,
+                email.toLowerCase(),
             ]);
             if (user.rows.length !== 0) {
                 return res.status(401).send("User Already Exists");
