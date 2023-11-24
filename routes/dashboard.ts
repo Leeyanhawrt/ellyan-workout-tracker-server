@@ -16,11 +16,28 @@ module.exports = (pool: Pool) => {
       res.json(user.rows[0]);
     } catch (err) {
       console.log(err);
-      res.status(500).json("Server Error");
+      res.status(500).json("Server Error Fetching Dashboard");
     }
   });
 
-  router.post("/update-max");
+  router.post(
+    "/update-orm",
+    authorization,
+    async (req: Request, res: Response) => {
+      const { squatMax, benchMax, deadliftMax } = req.body;
+      try {
+        const response = await pool.query(
+          "INSERT INTO personal_records (squat_max, bench_max, deadlift_max, id) VALUES ($1, $2, $3, $4) RETURNING *",
+          [squatMax, benchMax, deadliftMax, req.user?.id]
+        );
+
+        res.status(201).json("Successfully Entered New Personal Record!");
+      } catch (err) {
+        console.log(err);
+        res.status(500).json("Server Error Updating ORM");
+      }
+    }
+  );
 
   return router;
 };
