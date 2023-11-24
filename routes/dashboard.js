@@ -26,8 +26,28 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Fetching Dashboard");
         }
     }));
-    router.post("/update-orm", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { squatRecord, benchRecord, deadliftRecord } = req.body;
+    router.get("/orm-records", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const record = yield pool.query(`SELECT 
+            squat_record AS "squatRecord", 
+            bench_record AS "benchRecord", 
+            deadlift_record AS "deadliftRecord" 
+          FROM personal_records 
+            WHERE user_id = $1    
+          ORDER BY 
+            created_at DESC`, [req.user]);
+            res.status(200).json(record.rows);
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json("Server Error Fetching User Records");
+        }
+    }));
+    router.post("/orm-records", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        let { squatRecord, benchRecord, deadliftRecord } = req.body;
+        squatRecord = squatRecord || 0;
+        benchRecord = benchRecord || 0;
+        deadliftRecord = deadliftRecord || 0;
         try {
             const response = yield pool.query("INSERT INTO personal_records (squat_record, bench_record, deadlift_record, user_id) VALUES ($1, $2, $3, $4) RETURNING *", [squatRecord, benchRecord, deadliftRecord, req.user]);
             res

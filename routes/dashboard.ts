@@ -20,11 +20,40 @@ module.exports = (pool: Pool) => {
     }
   });
 
-  router.post(
-    "/update-orm",
+  router.get(
+    "/orm-records",
     authorization,
     async (req: Request, res: Response) => {
-      const { squatRecord, benchRecord, deadliftRecord } = req.body;
+      try {
+        const record = await pool.query(
+          `SELECT 
+            squat_record AS "squatRecord", 
+            bench_record AS "benchRecord", 
+            deadlift_record AS "deadliftRecord" 
+          FROM personal_records 
+            WHERE user_id = $1    
+          ORDER BY 
+            created_at DESC`,
+          [req.user]
+        );
+
+        res.status(200).json(record.rows);
+      } catch (err) {
+        console.log(err);
+        res.status(500).json("Server Error Fetching User Records");
+      }
+    }
+  );
+
+  router.post(
+    "/orm-records",
+    authorization,
+    async (req: Request, res: Response) => {
+      let { squatRecord, benchRecord, deadliftRecord } = req.body;
+
+      squatRecord = squatRecord || 0;
+      benchRecord = benchRecord || 0;
+      deadliftRecord = deadliftRecord || 0;
 
       try {
         const response = await pool.query(
