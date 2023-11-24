@@ -7,6 +7,6 @@ VALUES
 
 -- PERSONAL RECORDS --
 
-INSERT INTO personal_records (squat_max, bench_max, deadlift_max, user_id)
+INSERT INTO personal_records (squat_record, bench_record, deadlift_record, user_id)
 VALUES 
 (445, 355, 585, 1);
