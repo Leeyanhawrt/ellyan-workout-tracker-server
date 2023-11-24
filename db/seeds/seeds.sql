@@ -10,3 +10,25 @@ VALUES
 INSERT INTO personal_records (squat_record, bench_record, deadlift_record, user_id)
 VALUES 
 (445, 355, 585, 1);
+
+-- WORKOUT PROGRAMS --
+
+INSERT INTO workout_programs (name)
+VALUES 
+('INTERMEDIATE 9 WEEK');
+
+-- MICROCYCLES --
+
+INSERT INTO microcycles (microcycle_number, workout_program_id)
+VALUES
+(1, 1);
+
+-- DAILY WOKROUTS --
+
+INSERT INTO daily_workouts (day_number, microcycle_id)
+VALUES
+(1, 1);
+
+INSERT INTO exercises(name, number_sets, number_reps, daily_workout_id)
+VALUES
+('Squat', 3, 8, 1);
