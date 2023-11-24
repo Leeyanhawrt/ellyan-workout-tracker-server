@@ -20,5 +20,7 @@ module.exports = (pool: Pool) => {
     }
   });
 
+  router.post("/update-max");
+
   return router;
 };

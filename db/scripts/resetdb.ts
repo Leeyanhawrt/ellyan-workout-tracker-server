@@ -1,4 +1,7 @@
+import { error } from "console";
+
 require("dotenv").config();
+const bcrypt = require("bcrypt");
 const { Client } = require("pg");
 const SCHEMA_PATH = "./db/schema";
 const SEEDS_PATH = "./db/seeds";
@@ -17,6 +20,33 @@ const connObj = {
 };
 
 const client = new Client(connObj);
+
+const hashPassword = async (password: string) => {
+  const saltRound = 10;
+  const salt = await bcrypt.genSalt(saltRound);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
+};
+
+const seedUser = async () => {
+  const firstName = "Leeyan";
+  const lastName = "Haw";
+  const email = "leeyan1108@gmail.com";
+  const password = "123123";
+
+  try {
+    const hashedPassword = await hashPassword(password);
+
+    const result = await client.query(
+      "INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)",
+      [firstName, lastName, email, hashedPassword]
+    );
+
+    console.log("Example User Seeded!");
+  } catch (err) {
+    console.error("Error seeding user:", err);
+  }
+};
 
 const runMigrations = async () => {
   const migrations = await fs.readdir(SCHEMA_PATH);
@@ -51,6 +81,7 @@ const resetDB = async () => {
     await runMigrations();
     console.log("\n");
     console.log("-- Running Seeds --\n");
+    await seedUser();
     await runSeeds();
     console.log("\n");
     console.log("-- COMPLETED --");

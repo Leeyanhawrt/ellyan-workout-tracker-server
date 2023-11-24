@@ -26,5 +26,6 @@ module.exports = (pool) => {
             res.status(500).json("Server Error");
         }
     }));
+    router.post("/update-max");
     return router;
 };

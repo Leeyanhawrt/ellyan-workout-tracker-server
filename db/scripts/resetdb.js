@@ -8,7 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
+const bcrypt = require("bcrypt");
 const { Client } = require("pg");
 const SCHEMA_PATH = "./db/schema";
 const SEEDS_PATH = "./db/seeds";
@@ -23,6 +25,26 @@ const connObj = {
     ssl: NODE_ENV !== "development" ? { rejectUnauthorized: false } : null,
 };
 const client = new Client(connObj);
+const hashPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
+    const saltRound = 10;
+    const salt = yield bcrypt.genSalt(saltRound);
+    const hashedPassword = yield bcrypt.hash(password, salt);
+    return hashedPassword;
+});
+const seedUser = () => __awaiter(void 0, void 0, void 0, function* () {
+    const firstName = "Leeyan";
+    const lastName = "Haw";
+    const email = "leeyan1108@gmail.com";
+    const password = "123123";
+    try {
+        const hashedPassword = yield hashPassword(password);
+        const result = yield client.query("INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)", [firstName, lastName, email, hashedPassword]);
+        console.log("Example User Seeded!");
+    }
+    catch (err) {
+        console.error("Error seeding user:", err);
+    }
+});
 const runMigrations = () => __awaiter(void 0, void 0, void 0, function* () {
     const migrations = yield fs.readdir(SCHEMA_PATH);
     for (let migration of migrations) {
@@ -49,6 +71,7 @@ const resetDB = () => __awaiter(void 0, void 0, void 0, function* () {
         yield runMigrations();
         console.log("\n");
         console.log("-- Running Seeds --\n");
+        yield seedUser();
         yield runSeeds();
         console.log("\n");
         console.log("-- COMPLETED --");

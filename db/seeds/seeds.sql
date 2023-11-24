@@ -5,7 +5,8 @@ VALUES
 ('Ellissa', 'Huang', 'This Is My Favorite Fitness App', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Viverra justo nec ultrices dui sapien eget mi proin sed. Non consectetur a erat nam at lectus urna duis.', '/photos/testimonials/ellissa-huang.jpeg'),
 ('Wenjin', 'Haw', 'I Used to Get Injured All the Time', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sagittis id consectetur purus ut faucibus. At lectus urna duis convallis convallis tellus. Velit aliquet sagittis id consectetur.', '/photos/testimonials/wenjin-haw.jpeg');
 
--- USERS --
-INSERT INTO users (first_name, last_name, email, password)
-VALUES
-('Leeyan', 'Haw', 'Leeyan1108@gmail.com', 'fakepassword');
+-- PERSONAL RECORDS --
+
+INSERT INTO personal_records (bench_max, squat_max, deadlift_max, user_id)
+VALUES 
+(355, 445, 585, 1);
