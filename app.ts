@@ -19,11 +19,13 @@ const authenticationRoutes = require("./routes/jwtAuth");
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
 const dashboardRoutes = require("./routes/dashboard.js");
+const workoutProgramRoutes = require("./routes/workoutprogram.js");
 
 // Resource Mounting
 app.use("/auth", authenticationRoutes(pool));
 app.use("/dashboard", dashboardRoutes(pool));
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
+app.use("/workout-program", workoutProgramRoutes(pool));
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
