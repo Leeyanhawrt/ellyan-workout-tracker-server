@@ -45,7 +45,7 @@ module.exports = (pool) => {
         }
         catch (err) {
             console.log(err);
-            res.status(500).json("Server Error Fetching Daily-Workouts");
+            res.status(500).json("Server Error Fetching Daily Workouts");
         }
     }));
     return router;
