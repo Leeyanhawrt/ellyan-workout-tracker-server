@@ -25,9 +25,17 @@ VALUES
 
 -- DAILY WOKROUTS --
 
-INSERT INTO daily_workouts (day_number, microcycle_id)
-VALUES
-(1, 1);
+DO $$ 
+DECLARE
+    day_number INT;
+    microcycle_id INT;
+BEGIN
+    FOR microcycle_id IN 1..9 LOOP
+        FOR day_number IN 1..4 LOOP
+            INSERT INTO daily_workouts (day_number, microcycle_id) VALUES (day_number, microcycle_id);
+        END LOOP;
+    END LOOP;
+END $$;
 
 INSERT INTO exercises(name, number_sets, number_reps, daily_workout_id)
 VALUES
