@@ -35,10 +35,11 @@ module.exports = (pool: Pool) => {
     authorization,
     async (req: Request, res: Response) => {
       try {
-        const microcycles = await pool.query(
+        const dailyWorkouts = await pool.query(
           `SELECT 
             day_number AS "dayNumber", 
-            id 
+            id,
+            microcycle_id AS "microcycleId"
           FROM 
             daily_workouts
           WHERE 
@@ -46,10 +47,35 @@ module.exports = (pool: Pool) => {
           [req.params.id]
         );
 
-        res.json(microcycles.rows);
+        res.json(dailyWorkouts.rows);
       } catch (err) {
         console.log(err);
         res.status(500).json("Server Error Fetching Daily Workouts");
+      }
+    }
+  );
+
+  router.get(
+    "/exercise-list/:id",
+    authorization,
+    async (req: Request, res: Response) => {
+      try {
+        const exercises = await pool.query(
+          `SELECT 
+            name, 
+            number_sets AS "numberSets",
+            number_reps AS "numberReps"
+          FROM 
+            exercises
+          WHERE 
+            daily_workout_id = $1`,
+          [req.params.id]
+        );
+
+        res.json(exercises.rows);
+      } catch (err) {
+        console.log(err);
+        res.status(500).json("Server Error Fetching Exercise List");
       }
     }
   );
