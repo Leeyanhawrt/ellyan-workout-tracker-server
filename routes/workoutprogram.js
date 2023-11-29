@@ -52,6 +52,7 @@ module.exports = (pool) => {
     router.get("/exercise-list/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const exercises = yield pool.query(`SELECT 
+            daily_workout_exercises.id,
             name, 
             number_sets AS "numberSets",
             number_reps AS "numberReps",

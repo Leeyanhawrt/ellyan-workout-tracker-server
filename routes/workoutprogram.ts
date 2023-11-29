@@ -62,6 +62,7 @@ module.exports = (pool: Pool) => {
       try {
         const exercises = await pool.query(
           `SELECT 
+            daily_workout_exercises.id,
             name, 
             number_sets AS "numberSets",
             number_reps AS "numberReps",
