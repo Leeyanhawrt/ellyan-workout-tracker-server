@@ -84,8 +84,8 @@ const resetDB = async () => {
     await runMigrations();
     console.log("\n");
     console.log("-- Running Seeds --\n");
-    await seedUser();
     await runSeeds();
+    await seedUser();
     console.log("\n");
     console.log("-- COMPLETED --");
     client.end();

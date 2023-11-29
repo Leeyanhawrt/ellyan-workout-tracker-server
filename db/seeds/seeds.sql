@@ -1,3 +1,9 @@
+-- WORKOUT PROGRAMS --
+
+INSERT INTO workout_programs (name)
+VALUES 
+('INTERMEDIATE 9 WEEK');
+
 -- TESTIMONIALS --
 INSERT INTO testimonials (first_name, last_name, title, review_description, profile_image_path)
 VALUES
@@ -10,12 +16,6 @@ VALUES
 INSERT INTO personal_records (squat_record, bench_record, deadlift_record, user_id)
 VALUES 
 (445, 355, 585, 1);
-
--- WORKOUT PROGRAMS --
-
-INSERT INTO workout_programs (name)
-VALUES 
-('INTERMEDIATE 9 WEEK');
 
 -- MICROCYCLES --
 
@@ -30,7 +30,7 @@ VALUES
 ('Bulgarian Split Squat', 4, 12), ('Bicep Curl', 3, 12), ('Tricep Rope Extension', 3, 10),
 ('Close Grip Bench Press', 3, 6), ('Dumbbell Press', 4, 10), ('Incline Dumbbell Press', 4, 12);
 
--- DAILY WOKROUTS --
+-- DAILY WORKOUTS --
 
 DO $$ 
 DECLARE

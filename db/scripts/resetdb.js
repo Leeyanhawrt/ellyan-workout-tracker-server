@@ -73,8 +73,8 @@ const resetDB = () => __awaiter(void 0, void 0, void 0, function* () {
         yield runMigrations();
         console.log("\n");
         console.log("-- Running Seeds --\n");
-        yield seedUser();
         yield runSeeds();
+        yield seedUser();
         console.log("\n");
         console.log("-- COMPLETED --");
         client.end();
