@@ -31,8 +31,9 @@ CREATE TABLE exercises(
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   name VARCHAR(255) NOT NULL,
   number_sets SMALLINT NOT NULL,
-  number_reps SMALLINT,
-  rpe SMALLINT
+  number_reps SMALLINT NOT NULL,
+  rpe SMALLINT,
+  percentage SMALLINT
 );
 
 DROP TABLE IF EXISTS daily_workout_exercises CASCADE;
