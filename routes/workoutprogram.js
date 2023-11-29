@@ -57,7 +57,9 @@ module.exports = (pool) => {
             number_reps AS "numberReps",
             rpe
           FROM 
-            exercises
+            daily_workout_exercises
+          JOIN
+            exercises ON daily_workout_exercises.exercise_id = exercises.id
           WHERE 
             daily_workout_id = $1`, [req.params.id]);
             res.json(exercises.rows);
