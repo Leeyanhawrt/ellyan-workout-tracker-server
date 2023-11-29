@@ -24,11 +24,11 @@ VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1);
 
 
-INSERT INTO exercises(name, number_sets, number_reps)
+INSERT INTO exercises(name, number_sets, number_reps, percentage)
 VALUES
-('Squat', 3, 8), ('Bench Press', 3, 8), ('Deadlift', 4, 8), ('Shoulder Press', 3, 8), 
-('Bulgarian Split Squat', 4, 12), ('Bicep Curl', 3, 12), ('Tricep Rope Extension', 3, 10),
-('Close Grip Bench Press', 3, 6), ('Dumbbell Press', 4, 10), ('Incline Dumbbell Press', 4, 12);
+('Squat', 3, 8, 1 + FLOOR(RANDOM() * 100)), ('Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100)), ('Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100)), ('Shoulder Press', 3, 8, 1 + FLOOR(RANDOM() * 100)), 
+('Bulgarian Split Squat', 4, 12, 1 + FLOOR(RANDOM() * 100)), ('Bicep Curl', 3, 12, 1 + FLOOR(RANDOM() * 100)), ('Tricep Rope Extension', 3, 10, 1 + FLOOR(RANDOM() * 100)),
+('Close Grip Bench Press', 3, 6, 1 + FLOOR(RANDOM() * 100)), ('Dumbbell Press', 4, 10, 1 + FLOOR(RANDOM() * 100)), ('Incline Dumbbell Press', 4, 12, 1 + FLOOR(RANDOM() * 100));
 
 -- DAILY WORKOUTS --
 
