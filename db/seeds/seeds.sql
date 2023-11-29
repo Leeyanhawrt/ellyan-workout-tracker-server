@@ -23,12 +23,20 @@ INSERT INTO microcycles (microcycle_number, workout_program_id)
 VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1);
 
+
+INSERT INTO exercises(name, number_sets, number_reps)
+VALUES
+('Squat', 3, 8), ('Bench Press', 3, 8), ('Deadlift', 4, 8), ('Shoulder Press', 3, 8), 
+('Bulgarian Split Squat', 4, 12), ('Bicep Curl', 3, 12), ('Tricep Rope Extension', 3, 10),
+('Close Grip Bench Press', 3, 6), ('Dumbbell Press', 4, 10), ('Incline Dumbbell Press', 4, 12);
+
 -- DAILY WOKROUTS --
 
 DO $$ 
 DECLARE
     day_number INT;
     microcycle_id INT;
+    exercise_id INT;
 BEGIN
     FOR microcycle_id IN 1..9 LOOP
         FOR day_number IN 1..4 LOOP
@@ -37,6 +45,16 @@ BEGIN
     END LOOP;
 END $$;
 
-INSERT INTO exercises(name, number_sets, number_reps, daily_workout_id)
-VALUES
-('Squat', 3, 8, 1);
+-- DAILY WORKOUT EXERCISES --
+
+INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id)
+SELECT
+  dw.id AS daily_workout_id,
+  1 + FLOOR(RANDOM() * 10) AS exercise_id
+FROM
+  daily_workouts dw
+CROSS JOIN LATERAL (
+  SELECT generate_series(1, 6)
+) x
+WHERE
+  dw.day_number BETWEEN 1 AND 36;

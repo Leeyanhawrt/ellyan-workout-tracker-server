@@ -64,7 +64,8 @@ module.exports = (pool: Pool) => {
           `SELECT 
             name, 
             number_sets AS "numberSets",
-            number_reps AS "numberReps"
+            number_reps AS "numberReps",
+            rpe
           FROM 
             exercises
           WHERE 

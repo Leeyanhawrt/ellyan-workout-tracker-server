@@ -31,6 +31,14 @@ CREATE TABLE exercises(
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   name VARCHAR(255) NOT NULL,
   number_sets SMALLINT NOT NULL,
-  number_reps SMALLINT NOT NULL,
-  daily_workout_id INT REFERENCES daily_workouts(id) ON DELETE CASCADE
+  number_reps SMALLINT,
+  rpe SMALLINT
 );
+
+DROP TABLE IF EXISTS daily_workout_exercises CASCADE;
+
+CREATE TABLE daily_workout_exercises(
+  id SERIAL PRIMARY KEY,
+  daily_workout_id INTEGER REFERENCES daily_workouts(id) ON DELETE CASCADE,
+  exercise_id INTEGER REFERENCES exercises(id) ON DELETE CASCADE
+)

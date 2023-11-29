@@ -54,7 +54,8 @@ module.exports = (pool) => {
             const exercises = yield pool.query(`SELECT 
             name, 
             number_sets AS "numberSets",
-            number_reps AS "numberReps"
+            number_reps AS "numberReps",
+            rpe
           FROM 
             exercises
           WHERE 
