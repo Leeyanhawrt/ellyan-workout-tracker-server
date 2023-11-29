@@ -49,16 +49,16 @@ module.exports = (pool: Pool) => {
     "/orm-records",
     authorization,
     async (req: Request, res: Response) => {
-      let { squatRecord, benchRecord, deadliftRecord } = req.body;
+      let { squat, bench, deadlift } = req.body;
 
-      squatRecord = squatRecord || 0;
-      benchRecord = benchRecord || 0;
-      deadliftRecord = deadliftRecord || 0;
+      squat = squat || 0;
+      bench = bench || 0;
+      deadlift = deadlift || 0;
 
       try {
         const response = await pool.query(
           "INSERT INTO personal_records (squat, bench, deadlift, user_id) VALUES ($1, $2, $3, $4) RETURNING *",
-          [squatRecord, benchRecord, deadliftRecord, req.user]
+          [squat, bench, deadlift, req.user]
         );
 
         res
