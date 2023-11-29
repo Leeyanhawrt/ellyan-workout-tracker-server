@@ -48,6 +48,7 @@ const seedUser = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const runMigrations = () => __awaiter(void 0, void 0, void 0, function* () {
     const migrations = yield fs.readdir(SCHEMA_PATH);
+    const reversedMigrations = migrations.reverse();
     for (let migration of migrations) {
         const migrationFile = yield fs.readFile(`${SCHEMA_PATH}/${migration}`, "utf8");
         console.log(`Running ${migration}`);

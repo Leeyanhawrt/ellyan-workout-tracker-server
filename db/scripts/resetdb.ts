@@ -51,6 +51,8 @@ const seedUser = async () => {
 
 const runMigrations = async () => {
   const migrations = await fs.readdir(SCHEMA_PATH);
+  const reversedMigrations = migrations.reverse();
+
   for (let migration of migrations) {
     const migrationFile = await fs.readFile(
       `${SCHEMA_PATH}/${migration}`,
