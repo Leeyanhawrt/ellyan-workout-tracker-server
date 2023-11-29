@@ -29,9 +29,9 @@ module.exports = (pool) => {
     router.get("/orm-records", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const record = yield pool.query(`SELECT 
-            squat_record AS "squatRecord", 
-            bench_record AS "benchRecord", 
-            deadlift_record AS "deadliftRecord" 
+            squat, 
+            bench, 
+            deadlift 
           FROM personal_records 
             WHERE user_id = $1    
           ORDER BY 
@@ -49,7 +49,7 @@ module.exports = (pool) => {
         benchRecord = benchRecord || 0;
         deadliftRecord = deadliftRecord || 0;
         try {
-            const response = yield pool.query("INSERT INTO personal_records (squat_record, bench_record, deadlift_record, user_id) VALUES ($1, $2, $3, $4) RETURNING *", [squatRecord, benchRecord, deadliftRecord, req.user]);
+            const response = yield pool.query("INSERT INTO personal_records (squat, bench, deadlift, user_id) VALUES ($1, $2, $3, $4) RETURNING *", [squatRecord, benchRecord, deadliftRecord, req.user]);
             res
                 .status(201)
                 .json({ message: "Successfully Entered New Personal Record!" });

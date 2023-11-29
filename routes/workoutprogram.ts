@@ -66,7 +66,8 @@ module.exports = (pool: Pool) => {
             name, 
             number_sets AS "numberSets",
             number_reps AS "numberReps",
-            rpe
+            rpe,
+            percentage
           FROM 
             daily_workout_exercises
           JOIN
