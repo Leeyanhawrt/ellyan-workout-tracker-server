@@ -24,11 +24,11 @@ VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1);
 
 
-INSERT INTO exercises(name, number_sets, number_reps, percentage)
+INSERT INTO exercises(name, number_sets, number_reps, percentage, type)
 VALUES
-('Squat', 3, 8, 1 + FLOOR(RANDOM() * 100)), ('Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100)), ('Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100)), ('Shoulder Press', 3, 8, 1 + FLOOR(RANDOM() * 100)), 
-('Bulgarian Split Squat', 4, 12, 1 + FLOOR(RANDOM() * 100)), ('Bicep Curl', 3, 12, 1 + FLOOR(RANDOM() * 100)), ('Tricep Rope Extension', 3, 10, 1 + FLOOR(RANDOM() * 100)),
-('Close Grip Bench Press', 3, 6, 1 + FLOOR(RANDOM() * 100)), ('Dumbbell Press', 4, 10, 1 + FLOOR(RANDOM() * 100)), ('Incline Dumbbell Press', 4, 12, 1 + FLOOR(RANDOM() * 100));
+('Squat', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main'), ('Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main'), ('Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main'), ('Shoulder Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'accessory'), 
+('Bulgarian Split Squat', 4, 12, 1 + FLOOR(RANDOM() * 100), 'accessory'), ('Bicep Curl', 3, 12, 1 + FLOOR(RANDOM() * 100), 'accessory'), ('Tricep Rope Extension', 3, 10, 1 + FLOOR(RANDOM() * 100), 'accessory'),
+('Close Grip Bench Press', 3, 6, 1 + FLOOR(RANDOM() * 100), 'main variation'), ('Dumbbell Press', 4, 10, 1 + FLOOR(RANDOM() * 100), 'accessory'), ('Incline Dumbbell Press', 4, 12, 1 + FLOOR(RANDOM() * 100), 'accessory');
 
 -- DAILY WORKOUTS --
 

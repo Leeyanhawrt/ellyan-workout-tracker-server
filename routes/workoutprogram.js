@@ -57,13 +57,21 @@ module.exports = (pool) => {
             number_sets AS "numberSets",
             number_reps AS "numberReps",
             rpe,
-            percentage
+            percentage,
+            type
           FROM 
             daily_workout_exercises
           JOIN
             exercises ON daily_workout_exercises.exercise_id = exercises.id
           WHERE 
-            daily_workout_id = $1`, [req.params.id]);
+            daily_workout_id = $1
+          ORDER BY
+            CASE
+              WHEN type = 'main' THEN 1
+              WHEN type = 'main variation' THEN 2
+              WHEN type = 'accessory' THEN 3
+              ELSE 4 
+            END`, [req.params.id]);
             res.json(exercises.rows);
         }
         catch (err) {
