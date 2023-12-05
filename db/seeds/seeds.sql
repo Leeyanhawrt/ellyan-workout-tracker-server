@@ -7,9 +7,9 @@ VALUES
 -- TESTIMONIALS --
 INSERT INTO testimonials (first_name, last_name, title, review_description, profile_image_path)
 VALUES
-('Leeyan', 'Haw', 'Tracking My Workouts Accelerated My Progress', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mauris commodo quis imperdiet massa tincidunt. Augue mauris augue neque gravida in. Netus et malesuada fames ac turpis egestas.', '/photos/testimonials/leeyan-haw.jpeg'),
-('Ellissa', 'Huang', 'This Is My Favorite Fitness App', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Viverra justo nec ultrices dui sapien eget mi proin sed. Non consectetur a erat nam at lectus urna duis.', '/photos/testimonials/ellissa-huang.jpeg'),
-('Wenjin', 'Haw', 'I Used to Get Injured All the Time', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sagittis id consectetur purus ut faucibus. At lectus urna duis convallis convallis tellus. Velit aliquet sagittis id consectetur.', '/photos/testimonials/wenjin-haw.jpeg');
+('Leeyan', 'Haw', 'Accelerating Progress Through Tracked Workouts', 'Tracking my workouts has been a game-changer for my fitness journey. It provided a clear roadmap of my progress, allowing me to identify areas of improvement and adjust my training accordingly. The ability to see tangible results accelerated my motivation, turning each workout into a meaningful step towards achieving my fitness goals.', '/photos/testimonials/leeyan-haw.jpeg'),
+('Ellissa', 'Huang', 'The Ultimate Fitness App', 'This has truly become my go-to fitness app. Its user-friendly interface, custom workouts, and detailed tracking features have revolutionized the way I approach fitness. From personalized exercise plans to insightful progress reports, this app has firmly secured its place as an essential companion on my journey to a healthier lifestyle.', '/photos/testimonials/ellissa-huang.jpeg'),
+('Wenjin', 'Haw', 'From Setbacks to Strength', 'With the help of a Ellyan, I turned setbacks into strength, overcoming challenges and feeling better. Tailored workouts and progress tracking played a key role, breaking the cycle of injuries and transforming my approach into a powerful tool for recovery.', '/photos/testimonials/wenjin-haw.jpeg');
 
 -- PERSONAL RECORDS --
 
