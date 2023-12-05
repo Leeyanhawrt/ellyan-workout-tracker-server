@@ -34,13 +34,23 @@ const seedUser = async () => {
   const email = "leeyan1108@gmail.com";
   const password = "123123";
   const workoutProgram = 1;
+  const gender = "male";
+  const bodyweight = 178;
 
   try {
     const hashedPassword = await hashPassword(password);
 
     const result = await client.query(
-      "INSERT INTO users (first_name, last_name, email, password, workout_program_id) VALUES ($1, $2, $3, $4, $5)",
-      [firstName, lastName, email, hashedPassword, workoutProgram]
+      "INSERT INTO users (first_name, last_name, email, password, gender, bodyweight, workout_program_id) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      [
+        firstName,
+        lastName,
+        email,
+        hashedPassword,
+        gender,
+        bodyweight,
+        workoutProgram,
+      ]
     );
 
     console.log("Example User Seeded!");
