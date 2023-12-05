@@ -18,12 +18,21 @@ module.exports = (pool: Pool) => {
 
   router.post("/", authorization, async (req: Request, res: Response) => {
     try {
-      const { gender, weight } = req.body;
+      const { firstName, lastName, email, gender, bodyweight } = req.body;
+      const requiredFields = [firstName, lastName, email];
+      const valid = requiredFields.every((field) => Boolean(field));
+
+      if (!valid) {
+        return res.status(400).json({ error: "Missing Required Fields" });
+      }
+
       const data = await pool.query(
-        `UPDATE users SET gender = $1, bodyweight = $2 WHERE id = $3;`,
-        [gender, weight, req.user]
+        `UPDATE users SET first_name = $1, last_name = $2, email = $3, gender = $4, bodyweight = $5 WHERE id = $6;`,
+        [firstName, lastName, email.toLowerCase(), gender, bodyweight, req.user]
       );
-      res.status(200).send(data.rows);
+      res
+        .status(200)
+        .json({ message: "Successfully Updated Profile Information!" });
     } catch (err) {
       console.log(err);
       res.status(500).json("Server Error Adding Profile Information");
