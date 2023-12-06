@@ -4,7 +4,7 @@ CREATE TABLE personal_records(
   id SERIAL PRIMARY KEY,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   squat SMALLINT NOT NULL,
-  bench SMALLINT NOT NULL,
+  benchpress SMALLINT NOT NULL,
   deadlift SMALLINT NOT NULL,
   user_id INT REFERENCES users(id) ON DELETE CASCADE
 );
