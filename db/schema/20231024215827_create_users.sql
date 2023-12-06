@@ -9,5 +9,5 @@ CREATE TABLE users(
   password VARCHAR(255) NOT NULL,
   gender VARCHAR(7),
   bodyweight SMALLINT,
-  workout_program_id INT REFERENCES workout_programs(id) ON DELETE CASCADE
+  workout_program_id INT DEFAULT 1 REFERENCES workout_programs(id) ON DELETE CASCADE
 );
