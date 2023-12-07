@@ -65,7 +65,8 @@ module.exports = (pool) => {
     }));
     router.get("/is-verified", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            res.json(true);
+            const user = yield pool.query('SELECT roles, first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId" FROM users WHERE id = $1', [req.user]);
+            res.json(user.rows[0]);
         }
         catch (err) {
             console.log(err);

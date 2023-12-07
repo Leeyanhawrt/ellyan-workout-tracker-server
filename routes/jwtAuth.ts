@@ -77,7 +77,12 @@ module.exports = (pool: Pool) => {
     authorization,
     async (req: Request, res: Response) => {
       try {
-        res.json(true);
+        const user = await pool.query(
+          'SELECT roles, first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId" FROM users WHERE id = $1',
+          [req.user]
+        );
+
+        res.json(user.rows[0]);
       } catch (err) {
         console.log(err);
         res.status(500).send("Server Error Checking Authorization");

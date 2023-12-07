@@ -9,5 +9,6 @@ CREATE TABLE users(
   password VARCHAR(255) NOT NULL,
   gender VARCHAR(7),
   bodyweight SMALLINT,
+  roles VARCHAR(30)[] DEFAULT ARRAY['member']::VARCHAR(30)[],
   workout_program_id INT DEFAULT 1 REFERENCES workout_programs(id) ON DELETE CASCADE
 );
