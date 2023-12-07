@@ -7,7 +7,7 @@ const jwtGenerator = (userId: number) => {
   };
 
   return jwt.sign(payload, process.env.JWT_SECRET_ACCESS_KEY, {
-    expiresIn: "1hr",
+    expiresIn: "2hr",
   });
 };
 

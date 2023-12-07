@@ -46,9 +46,10 @@ module.exports = (pool: Pool) => {
     try {
       const { email, password } = req.body;
 
-      const user = await pool.query("SELECT * FROM users WHERE email = $1", [
-        email.toLowerCase(),
-      ]);
+      const user = await pool.query(
+        'SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId",  password, roles FROM users WHERE email = $1',
+        [email.toLowerCase()]
+      );
 
       if (user.rows.length === 0) {
         return res.status(401).json("Password or Email is incorrect");
@@ -65,7 +66,7 @@ module.exports = (pool: Pool) => {
 
       const token = jwtGenerator(user.rows[0].id);
 
-      res.json({ token });
+      res.json({ token: token, user: user.rows[0] });
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error User Login");

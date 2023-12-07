@@ -45,9 +45,7 @@ module.exports = (pool) => {
     router.post("/login", validInfo, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { email, password } = req.body;
-            const user = yield pool.query("SELECT * FROM users WHERE email = $1", [
-                email.toLowerCase(),
-            ]);
+            const user = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId",  password, roles FROM users WHERE email = $1', [email.toLowerCase()]);
             if (user.rows.length === 0) {
                 return res.status(401).json("Password or Email is incorrect");
             }
@@ -56,7 +54,7 @@ module.exports = (pool) => {
                 return res.status(401).json("Password or Email is incorrect");
             }
             const token = jwtGenerator(user.rows[0].id);
-            res.json({ token });
+            res.json({ token: token, user: user.rows[0] });
         }
         catch (err) {
             console.log(err);
