@@ -9,7 +9,7 @@ INSERT INTO testimonials (first_name, last_name, title, review_description, prof
 VALUES
 ('Leeyan', 'Haw', 'Accelerating Progress Through Tracked Workouts', 'Tracking my workouts has been a game-changer for my fitness journey. It provided a clear roadmap of my progress, allowing me to identify areas of improvement and adjust my training accordingly. The ability to see tangible results accelerated my motivation, turning each workout into a meaningful step towards achieving my fitness goals.', '/photos/testimonials/leeyan-haw.jpeg'),
 ('Ellissa', 'Huang', 'The Ultimate Fitness App', 'This has truly become my go-to fitness app. Its user-friendly interface, custom workouts, and detailed tracking features have revolutionized the way I approach fitness. From personalized exercise plans to insightful progress reports, this app has firmly secured its place as an essential companion on my journey to a healthier lifestyle.', '/photos/testimonials/ellissa-huang.jpeg'),
-('Wenjin', 'Haw', 'From Setbacks to Strength', 'With the help of a Ellyan, I turned setbacks into strength, overcoming challenges and feeling better. Tailored workouts and progress tracking played a key role, breaking the cycle of injuries and transforming my approach into a powerful tool for recovery.', '/photos/testimonials/wenjin-haw.jpeg');
+('Wenjin', 'Haw', 'Setbacks to Strength', 'With the help of a Ellyan, I turned setbacks into strength, overcoming challenges and feeling better. Tailored workouts and progress tracking played a key role, breaking the cycle of injuries and transforming my approach into a powerful tool for recovery.', '/photos/testimonials/wenjin-haw.jpeg');
 
 -- PERSONAL RECORDS --
 
