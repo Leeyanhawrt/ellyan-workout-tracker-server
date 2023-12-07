@@ -36,12 +36,13 @@ const seedUser = async () => {
   const workoutProgram = 1;
   const gender = "male";
   const bodyweight = 178;
+  const roles = ["member", "admin"];
 
   try {
     const hashedPassword = await hashPassword(password);
 
     const result = await client.query(
-      "INSERT INTO users (first_name, last_name, email, password, gender, bodyweight, workout_program_id) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      "INSERT INTO users (first_name, last_name, email, password, gender, bodyweight, workout_program_id, roles) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
       [
         firstName,
         lastName,
@@ -50,6 +51,7 @@ const seedUser = async () => {
         gender,
         bodyweight,
         workoutProgram,
+        roles,
       ]
     );
 

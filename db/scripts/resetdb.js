@@ -39,9 +39,10 @@ const seedUser = () => __awaiter(void 0, void 0, void 0, function* () {
     const workoutProgram = 1;
     const gender = "male";
     const bodyweight = 178;
+    const roles = ["member", "admin"];
     try {
         const hashedPassword = yield hashPassword(password);
-        const result = yield client.query("INSERT INTO users (first_name, last_name, email, password, gender, bodyweight, workout_program_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", [
+        const result = yield client.query("INSERT INTO users (first_name, last_name, email, password, gender, bodyweight, workout_program_id, roles) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [
             firstName,
             lastName,
             email,
@@ -49,6 +50,7 @@ const seedUser = () => __awaiter(void 0, void 0, void 0, function* () {
             gender,
             bodyweight,
             workoutProgram,
+            roles,
         ]);
         console.log("Example User Seeded!");
     }
