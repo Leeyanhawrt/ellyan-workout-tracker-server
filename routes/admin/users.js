@@ -18,7 +18,7 @@ const authorization = require("../../middleware/authorization");
 module.exports = (pool) => {
     router.get("/", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const users = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, id FROM users');
+            const users = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, id, gender, bodyweight, workout_program_id AS "WorkoutProgramId" FROM users');
             res.json(users.rows);
         }
         catch (err) {
