@@ -21,11 +21,17 @@ const testimonialRoutes = require("./routes/testimonials");
 const dashboardRoutes = require("./routes/dashboard.js");
 const workoutProgramRoutes = require("./routes/workoutprogram.js");
 
+// Admin Resource Routes
+const adminUserRoutes = require("./routes/admin/users.js");
+
 // Resource Mounting
 app.use("/auth", authenticationRoutes(pool));
 app.use("/dashboard", dashboardRoutes(pool));
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
 app.use("/workout-program", workoutProgramRoutes(pool));
+
+// Admin Resource Mounting
+app.use("/admin/user", adminUserRoutes(pool));
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
