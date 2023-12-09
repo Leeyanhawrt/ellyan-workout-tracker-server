@@ -26,12 +26,23 @@ module.exports = (pool) => {
           gender, 
           workout_programs.name AS "workoutProgramName" 
         FROM users
-        JOIN workout_programs ON users.workout_program_id = workout_programs.id;`);
+        JOIN workout_programs ON users.workout_program_id = workout_programs.id
+        ORDER BY users.id;`);
             res.json(users.rows);
         }
         catch (err) {
             console.log(err);
             res.status(500).json("Server Error Fetching Users");
+        }
+    }));
+    router.get("/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const user = yield pool.query(`SELECT first_name AS "firstName", last_name AS "lastName" FROM users WHERE id = $1`, [req.params.id]);
+            res.json(user.rows[0]);
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json("Server Error Fetching User Data");
         }
     }));
     return router;
