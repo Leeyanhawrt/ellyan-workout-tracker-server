@@ -18,31 +18,12 @@ const authorization = require("../../middleware/authorization");
 module.exports = (pool) => {
     router.get("/", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const users = yield pool.query(`SELECT 
-          first_name AS "firstName", 
-          last_name AS "lastName",
-          email,
-          users.id,
-          gender, 
-          workout_programs.name AS "workoutProgramName" 
-        FROM users
-        LEFT JOIN workout_programs ON users.workout_program_id = workout_programs.id
-        ORDER BY users.id;`);
-            res.json(users.rows);
+            const workoutPrograms = yield pool.query(`SELECT id, name FROM workout_programs;`);
+            res.json(workoutPrograms.rows);
         }
         catch (err) {
             console.log(err);
-            res.status(500).json("Server Error Fetching Users");
-        }
-    }));
-    router.get("/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const user = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId" FROM users WHERE id = $1', [req.params.id]);
-            res.json(user.rows[0]);
-        }
-        catch (err) {
-            console.log(err);
-            res.status(500).json("Server Error Fetching User Data");
+            res.status(500).json("Server Error Workout Programs");
         }
     }));
     return router;

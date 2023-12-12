@@ -23,6 +23,7 @@ const workoutProgramRoutes = require("./routes/workoutprogram.js");
 
 // Admin Resource Routes
 const adminUserRoutes = require("./routes/admin/users.js");
+const adminWorkoutProgramsRoutes = require("./routes/admin/workoutPrograms.js");
 
 // Resource Mounting
 app.use("/auth", authenticationRoutes(pool));
@@ -33,5 +34,6 @@ app.use("/workout-program", workoutProgramRoutes(pool));
 
 // Admin Resource Mounting
 app.use("/admin/user", adminUserRoutes(pool));
+app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(pool));
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

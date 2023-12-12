@@ -17,7 +17,7 @@ module.exports = (pool: Pool) => {
           gender, 
           workout_programs.name AS "workoutProgramName" 
         FROM users
-        JOIN workout_programs ON users.workout_program_id = workout_programs.id
+        LEFT JOIN workout_programs ON users.workout_program_id = workout_programs.id
         ORDER BY users.id;`
       );
 
