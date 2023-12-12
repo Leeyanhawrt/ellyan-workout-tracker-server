@@ -56,5 +56,15 @@ module.exports = (pool) => {
             res.status(500).json({ error: "Server Error Editing User Deatils" });
         }
     }));
+    router.get("/workout_program", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const workoutPrograms = yield pool.query(`SELECT id, name FROM workout_programs;`);
+            res.json(workoutPrograms.rows);
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json("Server Error Workout Programs");
+        }
+    }));
     return router;
 };

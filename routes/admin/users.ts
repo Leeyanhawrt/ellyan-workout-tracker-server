@@ -58,5 +58,22 @@ module.exports = (pool: Pool) => {
     }
   });
 
+  router.get(
+    "/workout_program",
+    authorization,
+    async (req: Request, res: Response) => {
+      try {
+        const workoutPrograms = await pool.query(
+          `SELECT id, name FROM workout_programs;`
+        );
+
+        res.json(workoutPrograms.rows);
+      } catch (err) {
+        console.log(err);
+        res.status(500).json("Server Error Workout Programs");
+      }
+    }
+  );
+
   return router;
 };
