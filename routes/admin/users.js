@@ -35,6 +35,17 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Fetching Users");
         }
     }));
+    router.get("/workout_programs", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("here");
+        try {
+            const workoutPrograms = yield pool.query(`SELECT id, name FROM workout_programs;`);
+            res.json(workoutPrograms.rows);
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json("Server Error Workout Programs");
+        }
+    }));
     router.get("/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const user = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId" FROM users WHERE id = $1', [req.params.id]);
@@ -54,16 +65,6 @@ module.exports = (pool) => {
         catch (err) {
             console.log(err);
             res.status(500).json({ error: "Server Error Editing User Deatils" });
-        }
-    }));
-    router.get("/workout_program", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            const workoutPrograms = yield pool.query(`SELECT id, name FROM workout_programs;`);
-            res.json(workoutPrograms.rows);
-        }
-        catch (err) {
-            console.log(err);
-            res.status(500).json("Server Error Workout Programs");
         }
     }));
     return router;

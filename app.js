@@ -29,7 +29,7 @@ app.use("/auth", authenticationRoutes(db_config_js_1.default));
 app.use("/dashboard", dashboardRoutes(db_config_js_1.default));
 app.use("/user", profileRoutes(db_config_js_1.default));
 app.use("/testimonial", testimonialRoutes(db_config_js_1.default));
-app.use("/workout-program", workoutProgramRoutes(db_config_js_1.default));
+app.use("/workout_program", workoutProgramRoutes(db_config_js_1.default));
 // Admin Resource Mounting
 app.use("/admin/user", adminUserRoutes(db_config_js_1.default));
 app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(db_config_js_1.default));

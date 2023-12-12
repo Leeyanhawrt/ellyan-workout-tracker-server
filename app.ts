@@ -30,7 +30,7 @@ app.use("/auth", authenticationRoutes(pool));
 app.use("/dashboard", dashboardRoutes(pool));
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
-app.use("/workout-program", workoutProgramRoutes(pool));
+app.use("/workout_program", workoutProgramRoutes(pool));
 
 // Admin Resource Mounting
 app.use("/admin/user", adminUserRoutes(pool));

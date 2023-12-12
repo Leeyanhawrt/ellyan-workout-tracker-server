@@ -31,7 +31,7 @@ module.exports = (pool: Pool) => {
   );
 
   router.get(
-    "/daily-workout/:id",
+    "/daily_workout/:id",
     authorization,
     async (req: Request, res: Response) => {
       try {
@@ -56,7 +56,7 @@ module.exports = (pool: Pool) => {
   );
 
   router.get(
-    "/exercise-list/:id",
+    "/exercise_list/:id",
     authorization,
     async (req: Request, res: Response) => {
       try {

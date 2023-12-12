@@ -28,6 +28,24 @@ module.exports = (pool: Pool) => {
     }
   });
 
+  router.get(
+    "/workout_programs",
+    authorization,
+    async (req: Request, res: Response) => {
+      console.log("here");
+      try {
+        const workoutPrograms = await pool.query(
+          `SELECT id, name FROM workout_programs;`
+        );
+
+        res.json(workoutPrograms.rows);
+      } catch (err) {
+        console.log(err);
+        res.status(500).json("Server Error Workout Programs");
+      }
+    }
+  );
+
   router.get("/:id", authorization, async (req: Request, res: Response) => {
     try {
       const user = await pool.query(
@@ -57,23 +75,6 @@ module.exports = (pool: Pool) => {
       res.status(500).json({ error: "Server Error Editing User Deatils" });
     }
   });
-
-  router.get(
-    "/workout_program",
-    authorization,
-    async (req: Request, res: Response) => {
-      try {
-        const workoutPrograms = await pool.query(
-          `SELECT id, name FROM workout_programs;`
-        );
-
-        res.json(workoutPrograms.rows);
-      } catch (err) {
-        console.log(err);
-        res.status(500).json("Server Error Workout Programs");
-      }
-    }
-  );
 
   return router;
 };

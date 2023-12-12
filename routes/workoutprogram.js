@@ -32,7 +32,7 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Fetching Microcycles");
         }
     }));
-    router.get("/daily-workout/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    router.get("/daily_workout/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const dailyWorkouts = yield pool.query(`SELECT 
             day_number AS "dayNumber", 
@@ -49,7 +49,7 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Fetching Daily Workouts");
         }
     }));
-    router.get("/exercise-list/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    router.get("/exercise_list/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const exercises = yield pool.query(`SELECT 
             daily_workout_exercises.id,
