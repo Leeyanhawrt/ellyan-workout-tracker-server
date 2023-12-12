@@ -45,5 +45,16 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Fetching User Data");
         }
     }));
+    router.post("/", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const { workoutProgramId, userId } = req.body;
+            const response = yield pool.query(`UPDATE users SET workout_program_id = $1 WHERE id = $2;`, [workoutProgramId, userId]);
+            res.status(201).json({ message: "Successfully Edited User Details!" });
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json({ error: "Server Error Editing User Deatils" });
+        }
+    }));
     return router;
 };

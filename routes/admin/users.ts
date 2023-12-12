@@ -42,5 +42,21 @@ module.exports = (pool: Pool) => {
     }
   });
 
+  router.post("/", authorization, async (req: Request, res: Response) => {
+    try {
+      const { workoutProgramId, userId } = req.body;
+
+      const response = await pool.query(
+        `UPDATE users SET workout_program_id = $1 WHERE id = $2;`,
+        [workoutProgramId, userId]
+      );
+
+      res.status(201).json({ message: "Successfully Edited User Details!" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Server Error Editing User Deatils" });
+    }
+  });
+
   return router;
 };
