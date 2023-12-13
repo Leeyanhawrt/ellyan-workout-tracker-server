@@ -41,6 +41,7 @@ module.exports = (pool: Pool) => {
       }
     }
   );
+
   router.get(
     "/microcycle/:id",
     authorization,
@@ -55,6 +56,31 @@ module.exports = (pool: Pool) => {
       } catch (err) {
         console.log(err);
         res.status(500).json("Server Error Fetching Admin Microcycles");
+      }
+    }
+  );
+
+  router.post(
+    "/daily_workout",
+    authorization,
+    async (req: Request, res: Response) => {
+      const { dayNumber, microcycleId } = req.body;
+
+      try {
+        const response = await pool.query(
+          `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2) RETURNING id, day_number AS "dayNumber"`,
+          [dayNumber + 1, microcycleId]
+        );
+
+        res.json({
+          message: "Successfully Created New Daily Workout",
+          dailyWorkout: response.rows[0],
+        });
+      } catch (err) {
+        console.log(err);
+        res
+          .status(500)
+          .json({ error: "Server Error Creating New Daily Workout" });
       }
     }
   );

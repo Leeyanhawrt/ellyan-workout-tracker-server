@@ -32,7 +32,6 @@ module.exports = (pool: Pool) => {
     "/workout_programs",
     authorization,
     async (req: Request, res: Response) => {
-      console.log("here");
       try {
         const workoutPrograms = await pool.query(
           `SELECT id, name FROM workout_programs;`
