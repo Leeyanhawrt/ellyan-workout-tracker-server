@@ -26,6 +26,20 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Workout Programs");
         }
     }));
+    router.post("/microcycle", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { microcycleNumber, workoutProgramId } = req.body;
+        try {
+            const response = yield pool.query("INSERT INTO microcycles (microcycle_number, workout_program_id) VALUES ($1, $2) RETURNING *", [microcycleNumber + 1, workoutProgramId]);
+            res.json({
+                message: "Successfully Created New Microcycle",
+                data: response.rows[0],
+            });
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json({ error: "Server Error Creating New Microcycle" });
+        }
+    }));
     router.get("/microcycle/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const microcycles = yield pool.query(`SELECT microcycle_number AS "microcycleNumber", id FROM microcycles WHERE workout_program_id = $1`, [req.params.id]);

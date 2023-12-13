@@ -19,6 +19,28 @@ module.exports = (pool: Pool) => {
     }
   });
 
+  router.post(
+    "/microcycle",
+    authorization,
+    async (req: Request, res: Response) => {
+      const { microcycleNumber, workoutProgramId } = req.body;
+
+      try {
+        const response = await pool.query(
+          "INSERT INTO microcycles (microcycle_number, workout_program_id) VALUES ($1, $2) RETURNING *",
+          [microcycleNumber + 1, workoutProgramId]
+        );
+
+        res.json({
+          message: "Successfully Created New Microcycle",
+          data: response.rows[0],
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Server Error Creating New Microcycle" });
+      }
+    }
+  );
   router.get(
     "/microcycle/:id",
     authorization,
