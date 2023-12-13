@@ -33,7 +33,7 @@ app.use("/testimonial", testimonialRoutes(pool));
 app.use("/workout_program", workoutProgramRoutes(pool));
 
 // Admin Resource Mounting
-app.use("/admin/user", adminUserRoutes(pool));
+app.use("/admin/users", adminUserRoutes(pool));
 app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(pool));
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

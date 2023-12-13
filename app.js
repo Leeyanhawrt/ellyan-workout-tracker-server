@@ -31,6 +31,6 @@ app.use("/user", profileRoutes(db_config_js_1.default));
 app.use("/testimonial", testimonialRoutes(db_config_js_1.default));
 app.use("/workout_program", workoutProgramRoutes(db_config_js_1.default));
 // Admin Resource Mounting
-app.use("/admin/user", adminUserRoutes(db_config_js_1.default));
+app.use("/admin/users", adminUserRoutes(db_config_js_1.default));
 app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(db_config_js_1.default));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
