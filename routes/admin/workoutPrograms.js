@@ -29,10 +29,10 @@ module.exports = (pool) => {
     router.post("/microcycle", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { microcycleNumber, workoutProgramId } = req.body;
         try {
-            const response = yield pool.query("INSERT INTO microcycles (microcycle_number, workout_program_id) VALUES ($1, $2) RETURNING id, microcycle_number", [microcycleNumber + 1, workoutProgramId]);
+            const response = yield pool.query(`INSERT INTO microcycles (microcycle_number, workout_program_id) VALUES ($1, $2) RETURNING id, microcycle_number AS "microcycleNumber"`, [microcycleNumber + 1, workoutProgramId]);
             res.json({
                 message: "Successfully Created New Microcycle",
-                data: response.rows[0],
+                microcycle: response.rows[0],
             });
         }
         catch (err) {
