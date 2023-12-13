@@ -20,7 +20,7 @@ module.exports = (pool: Pool) => {
   });
 
   router.get(
-    "microcycle/:id",
+    "/microcycle/:id",
     authorization,
     async (req: Request, res: Response) => {
       try {

@@ -26,7 +26,7 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Workout Programs");
         }
     }));
-    router.get("microcycle/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    router.get("/microcycle/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const microcycles = yield pool.query(`SELECT microcycle_number AS "microcycleNumber", id FROM microcycles WHERE workout_program_id = $1`, [req.params.id]);
             res.json(microcycles.rows);
