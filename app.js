@@ -20,7 +20,7 @@ const authenticationRoutes = require("./routes/jwtAuth");
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
 const dashboardRoutes = require("./routes/dashboard");
-const workoutProgramRoutes = require("./routes/workoutProgram");
+const workoutProgramRoutes = require("./routes/workoutPrograms");
 // Admin Resource Routes
 const adminUserRoutes = require("./routes/admin/users");
 const adminWorkoutProgramsRoutes = require("./routes/admin/workoutPrograms");
