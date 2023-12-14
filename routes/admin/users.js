@@ -36,7 +36,6 @@ module.exports = (pool) => {
         }
     }));
     router.get("/workout_programs", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("here");
         try {
             const workoutPrograms = yield pool.query(`SELECT id, name FROM workout_programs;`);
             res.json(workoutPrograms.rows);
