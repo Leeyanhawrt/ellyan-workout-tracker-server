@@ -101,7 +101,7 @@ module.exports = (pool: Pool) => {
         await pool.query("BEGIN");
 
         const exercise = await pool.query(
-          `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+          `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type`,
           [
             exerciseName,
             sets,
@@ -114,7 +114,7 @@ module.exports = (pool: Pool) => {
 
         const exerciseId = exercise.rows[0].id;
 
-        const response = await pool.query(
+        const dailyWorkoutProgram = await pool.query(
           `INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`,
           [dailyWorkoutId, exerciseId]
         );
@@ -123,7 +123,7 @@ module.exports = (pool: Pool) => {
 
         res.status(201).json({
           message: "Successfully Created New Exercise",
-          dailyWorkout: response.rows[0],
+          dailyWorkout: exercise.rows[0],
         });
       } catch (err) {
         await pool.query("ROLLBACK");
