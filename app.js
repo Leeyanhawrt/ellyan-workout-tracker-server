@@ -19,11 +19,11 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 const authenticationRoutes = require("./routes/jwtAuth");
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
-const dashboardRoutes = require("./routes/dashboard.js");
-const workoutProgramRoutes = require("./routes/workoutProgram.js");
+const dashboardRoutes = require("./routes/dashboard");
+const workoutProgramRoutes = require("./routes/workoutProgram");
 // Admin Resource Routes
-const adminUserRoutes = require("./routes/admin/users.js");
-const adminWorkoutProgramsRoutes = require("./routes/admin/workoutPrograms.js");
+const adminUserRoutes = require("./routes/admin/users");
+const adminWorkoutProgramsRoutes = require("./routes/admin/workoutPrograms");
 // Resource Mounting
 app.use("/auth", authenticationRoutes(db_config_js_1.default));
 app.use("/dashboard", dashboardRoutes(db_config_js_1.default));
