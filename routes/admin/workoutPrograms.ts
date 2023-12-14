@@ -72,7 +72,7 @@ module.exports = (pool: Pool) => {
           [dayNumber + 1, microcycleId]
         );
 
-        res.json({
+        res.status(201).json({
           message: "Successfully Created New Daily Workout",
           dailyWorkout: response.rows[0],
         });
@@ -81,6 +81,54 @@ module.exports = (pool: Pool) => {
         res
           .status(500)
           .json({ error: "Server Error Creating New Daily Workout" });
+      }
+    }
+  );
+
+  router.post(
+    "/exercise",
+    authorization,
+    async (req: Request, res: Response) => {
+      const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } =
+        req.body;
+
+      const sanitizedParams = {
+        rpe: rpe || null,
+        percentage: percentage || null,
+      };
+
+      try {
+        await pool.query("BEGIN");
+
+        const exercise = await pool.query(
+          `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+          [
+            exerciseName,
+            sets,
+            reps,
+            sanitizedParams.rpe,
+            sanitizedParams.percentage,
+            "Test",
+          ]
+        );
+
+        const exerciseId = exercise.rows[0].id;
+
+        const response = await pool.query(
+          `INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`,
+          [dailyWorkoutId, exerciseId]
+        );
+
+        await pool.query("COMMIT");
+
+        res.status(201).json({
+          message: "Successfully Created New Exercise",
+          dailyWorkout: response.rows[0],
+        });
+      } catch (err) {
+        await pool.query("ROLLBACK");
+        console.error(err);
+        res.status(500).json({ error: "Server Error Creating New Exercise" });
       }
     }
   );

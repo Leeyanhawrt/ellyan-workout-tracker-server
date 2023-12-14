@@ -54,7 +54,7 @@ module.exports = (pool) => {
         const { dayNumber, microcycleId } = req.body;
         try {
             const response = yield pool.query(`INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2) RETURNING id, day_number AS "dayNumber"`, [dayNumber + 1, microcycleId]);
-            res.json({
+            res.status(201).json({
                 message: "Successfully Created New Daily Workout",
                 dailyWorkout: response.rows[0],
             });
@@ -64,6 +64,36 @@ module.exports = (pool) => {
             res
                 .status(500)
                 .json({ error: "Server Error Creating New Daily Workout" });
+        }
+    }));
+    router.post("/exercise", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } = req.body;
+        const sanitizedParams = {
+            rpe: rpe || null,
+            percentage: percentage || null,
+        };
+        try {
+            yield pool.query("BEGIN");
+            const exercise = yield pool.query(`INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`, [
+                exerciseName,
+                sets,
+                reps,
+                sanitizedParams.rpe,
+                sanitizedParams.percentage,
+                "Test",
+            ]);
+            const exerciseId = exercise.rows[0].id;
+            const response = yield pool.query(`INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkoutId, exerciseId]);
+            yield pool.query("COMMIT");
+            res.status(201).json({
+                message: "Successfully Created New Exercise",
+                dailyWorkout: response.rows[0],
+            });
+        }
+        catch (err) {
+            yield pool.query("ROLLBACK");
+            console.error(err);
+            res.status(500).json({ error: "Server Error Creating New Exercise" });
         }
     }));
     return router;
