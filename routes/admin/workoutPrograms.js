@@ -68,6 +68,12 @@ module.exports = (pool) => {
     }));
     router.post("/exercise", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } = req.body;
+        // Check for existing exercise and assign the same type, if not default to accessory exercise
+        let type = "accessory";
+        const exerciseType = yield pool.query("SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1", [exerciseName]);
+        if (exerciseType.rows.length > 0) {
+            type = exerciseType.rows[0].type;
+        }
         const sanitizedParams = {
             rpe: rpe || null,
             percentage: percentage || null,
@@ -80,7 +86,7 @@ module.exports = (pool) => {
                 reps,
                 sanitizedParams.rpe,
                 sanitizedParams.percentage,
-                "Test",
+                type,
             ]);
             const exerciseId = exercise.rows[0].id;
             const dailyWorkoutProgram = yield pool.query(`INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkoutId, exerciseId]);

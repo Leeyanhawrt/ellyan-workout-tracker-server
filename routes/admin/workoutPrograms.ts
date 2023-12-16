@@ -92,6 +92,18 @@ module.exports = (pool: Pool) => {
       const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } =
         req.body;
 
+      // Check for existing exercise and assign the same type, if not default to accessory exercise
+      let type = "accessory";
+
+      const exerciseType = await pool.query(
+        "SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1",
+        [exerciseName]
+      );
+
+      if (exerciseType.rows.length > 0) {
+        type = exerciseType.rows[0].type;
+      }
+
       const sanitizedParams = {
         rpe: rpe || null,
         percentage: percentage || null,
@@ -108,7 +120,7 @@ module.exports = (pool: Pool) => {
             reps,
             sanitizedParams.rpe,
             sanitizedParams.percentage,
-            "Test",
+            type,
           ]
         );
 
