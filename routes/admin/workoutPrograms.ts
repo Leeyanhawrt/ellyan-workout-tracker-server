@@ -145,5 +145,25 @@ module.exports = (pool: Pool) => {
     }
   );
 
+  router.delete(
+    "/exercise/:id",
+    authorization,
+    async (req: Request, res: Response) => {
+      try {
+        const exercise = await pool.query(
+          `DELETE FROM daily_workout_exercises WHERE id = $1`,
+          [req.params.id]
+        );
+
+        res.status(200).json({
+          message: "Successfully Deleted Exercise",
+        });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server Error Deleting Exercise" });
+      }
+    }
+  );
+
   return router;
 };
