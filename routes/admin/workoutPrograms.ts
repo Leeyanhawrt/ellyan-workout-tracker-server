@@ -112,17 +112,39 @@ module.exports = (pool: Pool) => {
       try {
         await pool.query("BEGIN");
 
-        const exercise = await pool.query(
-          `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type`,
+        let exercise;
+
+        const existingExercise = await pool.query(
+          `SELECT id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type 
+          FROM exercises 
+          WHERE name = $1 AND number_sets = $2 AND number_reps = $3 
+            AND (rpe = $4 OR ($4 IS NULL AND rpe IS NULL))
+            AND (percentage = $5 OR ($5 IS NULL AND percentage IS NULL))
+          LIMIT 1`,
           [
             exerciseName,
             sets,
             reps,
             sanitizedParams.rpe,
             sanitizedParams.percentage,
-            type,
           ]
         );
+
+        if (existingExercise.rows.length > 0) {
+          exercise = existingExercise;
+        } else {
+          exercise = await pool.query(
+            `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type`,
+            [
+              exerciseName,
+              sets,
+              reps,
+              sanitizedParams.rpe,
+              sanitizedParams.percentage,
+              type,
+            ]
+          );
+        }
 
         const exerciseId = exercise.rows[0].id;
 
