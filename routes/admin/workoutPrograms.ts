@@ -46,6 +46,22 @@ module.exports = (pool: Pool) => {
     }
   });
 
+  router.delete("/:id", authorization, async (req: Request, res: Response) => {
+    try {
+      const workoutProgram = await pool.query(
+        `DELETE FROM workout_programs WHERE id = $1`,
+        [req.params.id]
+      );
+
+      res.status(200).json({
+        message: "Successfully Deleted Workout Program",
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Server Error Deleting Workout Program" });
+    }
+  });
+
   router.post(
     "/microcycle",
     authorization,
