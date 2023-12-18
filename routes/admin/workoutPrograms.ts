@@ -19,6 +19,33 @@ module.exports = (pool: Pool) => {
     }
   });
 
+  router.post("/", authorization, async (req: Request, res: Response) => {
+    const { programName } = req.body;
+
+    try {
+      const response = await pool.query(
+        `INSERT INTO workout_programs (name) VALUES ($1) RETURNING id, name`,
+        [programName]
+      );
+
+      res.status(201).json({
+        message: "Successfully Created New Daily Workout",
+        workoutProgram: response.rows[0],
+      });
+    } catch (err) {
+      console.log(err);
+      const error = err as Error & { code?: string };
+
+      if (error?.code === "23505") {
+        res.status(500).json({ error: "Workout Program Name Already Exists" });
+      } else {
+        res
+          .status(500)
+          .json({ error: "Server Error Creating New Workout Program" });
+      }
+    }
+  });
+
   router.post(
     "/microcycle",
     authorization,

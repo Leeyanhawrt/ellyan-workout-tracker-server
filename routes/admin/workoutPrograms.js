@@ -26,6 +26,28 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Workout Programs");
         }
     }));
+    router.post("/", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { programName } = req.body;
+        try {
+            const response = yield pool.query(`INSERT INTO workout_programs (name) VALUES ($1) RETURNING id, name`, [programName]);
+            res.status(201).json({
+                message: "Successfully Created New Daily Workout",
+                workoutProgram: response.rows[0],
+            });
+        }
+        catch (err) {
+            console.log(err);
+            const error = err;
+            if ((error === null || error === void 0 ? void 0 : error.code) === "23505") {
+                res.status(500).json({ error: "Workout Program Name Already Exists" });
+            }
+            else {
+                res
+                    .status(500)
+                    .json({ error: "Server Error Creating New Workout Program" });
+            }
+        }
+    }));
     router.post("/microcycle", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { microcycleNumber, workoutProgramId } = req.body;
         try {
