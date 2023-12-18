@@ -29,7 +29,7 @@ module.exports = (pool: Pool) => {
       );
 
       res.status(201).json({
-        message: "Successfully Created New Daily Workout",
+        message: "Successfully Created New Workout Program",
         workoutProgram: response.rows[0],
       });
     } catch (err) {

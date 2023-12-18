@@ -31,7 +31,7 @@ module.exports = (pool) => {
         try {
             const response = yield pool.query(`INSERT INTO workout_programs (name) VALUES ($1) RETURNING id, name`, [programName]);
             res.status(201).json({
-                message: "Successfully Created New Daily Workout",
+                message: "Successfully Created New Workout Program",
                 workoutProgram: response.rows[0],
             });
         }
