@@ -102,16 +102,17 @@ module.exports = (pool) => {
     }));
     router.post("/exercise", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } = req.body;
-        // Check for existing exercise and assign the same type, if not default to accessory exercise
-        let type = "accessory";
-        const exerciseType = yield pool.query("SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1", [exerciseName.trimEnd()]);
-        if (exerciseType.rows.length > 0) {
-            type = exerciseType.rows[0].type;
-        }
         const sanitizedParams = {
             rpe: rpe || null,
             percentage: percentage || null,
+            exerciseName: exerciseName.trimEnd(),
         };
+        // Check for existing exercise and assign the same type, if not default to accessory exercise
+        let type = "accessory";
+        const exerciseType = yield pool.query("SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1", [sanitizedParams.exerciseName]);
+        if (exerciseType.rows.length > 0) {
+            type = exerciseType.rows[0].type;
+        }
         try {
             yield pool.query("BEGIN");
             let exercise;
@@ -121,7 +122,7 @@ module.exports = (pool) => {
             AND (rpe = $4 OR ($4 IS NULL AND rpe IS NULL))
             AND (percentage = $5 OR ($5 IS NULL AND percentage IS NULL))
           LIMIT 1`, [
-                exerciseName.trimEnd(),
+                sanitizedParams.exerciseName,
                 sets,
                 reps,
                 sanitizedParams.rpe,
@@ -132,7 +133,7 @@ module.exports = (pool) => {
             }
             else {
                 exercise = yield pool.query(`INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type`, [
-                    exerciseName,
+                    sanitizedParams.exerciseName,
                     sets,
                     reps,
                     sanitizedParams.rpe,

@@ -135,22 +135,23 @@ module.exports = (pool: Pool) => {
       const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } =
         req.body;
 
+      const sanitizedParams = {
+        rpe: rpe || null,
+        percentage: percentage || null,
+        exerciseName: exerciseName.trimEnd(),
+      };
+
       // Check for existing exercise and assign the same type, if not default to accessory exercise
       let type = "accessory";
 
       const exerciseType = await pool.query(
         "SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1",
-        [exerciseName.trimEnd()]
+        [sanitizedParams.exerciseName]
       );
 
       if (exerciseType.rows.length > 0) {
         type = exerciseType.rows[0].type;
       }
-
-      const sanitizedParams = {
-        rpe: rpe || null,
-        percentage: percentage || null,
-      };
 
       try {
         await pool.query("BEGIN");
@@ -165,7 +166,7 @@ module.exports = (pool: Pool) => {
             AND (percentage = $5 OR ($5 IS NULL AND percentage IS NULL))
           LIMIT 1`,
           [
-            exerciseName.trimEnd(),
+            sanitizedParams.exerciseName,
             sets,
             reps,
             sanitizedParams.rpe,
@@ -179,7 +180,7 @@ module.exports = (pool: Pool) => {
           exercise = await pool.query(
             `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type`,
             [
-              exerciseName.trimEnd(),
+              sanitizedParams.exerciseName,
               sets,
               reps,
               sanitizedParams.rpe,
