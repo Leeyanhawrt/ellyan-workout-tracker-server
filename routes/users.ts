@@ -18,7 +18,8 @@ module.exports = (pool: Pool) => {
 
   router.post("/", authorization, async (req: Request, res: Response) => {
     try {
-      const { firstName, lastName, email, gender, bodyweight } = req.body;
+      const { firstName, lastName, email, gender, bodyweight, roundDown } =
+        req.body;
       const requiredFields = [firstName, lastName, email];
       const valid = requiredFields.every((field) => Boolean(field));
 
@@ -27,8 +28,16 @@ module.exports = (pool: Pool) => {
       }
 
       const data = await pool.query(
-        `UPDATE users SET first_name = $1, last_name = $2, email = $3, gender = $4, bodyweight = $5 WHERE id = $6;`,
-        [firstName, lastName, email.toLowerCase(), gender, bodyweight, req.user]
+        `UPDATE users SET first_name = $1, last_name = $2, email = $3, gender = $4, bodyweight = $5, roundDown = $6 WHERE id = $7;`,
+        [
+          firstName,
+          lastName,
+          email.toLowerCase(),
+          gender,
+          bodyweight,
+          roundDown,
+          req.user,
+        ]
       );
       res
         .status(200)
