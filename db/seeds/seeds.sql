@@ -35,7 +35,7 @@ VALUES
 ('Close Grip Bench', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation'), ('Larsen Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation'), ('Stiff Leg Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main variation'),
 ('Pause Squat', 3, 8, 1, 'main variation'), ('Halting Deadlift', 3, 8, 1, 'main variation'), ('Spotto Press', 3, 8, 1, 'main variation'), ('Deficit Deadlift', 3, 8, 1, 'main variation'),
 ('Rack Pull Deadlift', 3, 8, 1, 'main variation'), ('Wide Grip Bench', 3, 8, 1, 'main variation'), ('Safety Bar Squats', 3, 8, 1, 'main variation'), ('Trap Bar Deadlift', 3, 8, 1, 'main variation'),
-('Deadlift To Knee', 3, 8, 1 'main variation'), ('Deadlift From Boxes', 3, 8, 1, 'main variation');
+('Deadlift To Knee', 3, 8, 1, 'main variation'), ('Deadlift From Boxes', 3, 8, 1, 'main variation');
 
 -- ACCESSORY EXERCISES --
 INSERT INTO exercises(name, number_sets, number_reps, rpe, type)
