@@ -62,7 +62,7 @@ END $$;
 INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id)
 SELECT
   dw.id AS daily_workout_id,
-  1 + FLOOR(RANDOM() * 10) AS exercise_id
+  1 + FLOOR(RANDOM() * 20) AS exercise_id
 FROM
   daily_workouts dw
 CROSS JOIN LATERAL (
