@@ -47,7 +47,7 @@ module.exports = (pool) => {
     }));
     router.get("/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const user = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId", roundDown FROM users WHERE id = $1', [req.params.id]);
+            const user = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId", round_down AS "roundDown" FROM users WHERE id = $1', [req.params.id]);
             res.json(user.rows[0]);
         }
         catch (err) {

@@ -48,7 +48,7 @@ module.exports = (pool: Pool) => {
   router.get("/:id", authorization, async (req: Request, res: Response) => {
     try {
       const user = await pool.query(
-        'SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId", roundDown FROM users WHERE id = $1',
+        'SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId", round_down AS "roundDown" FROM users WHERE id = $1',
         [req.params.id]
       );
 
