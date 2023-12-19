@@ -179,7 +179,7 @@ module.exports = (pool: Pool) => {
           exercise = await pool.query(
             `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type`,
             [
-              exerciseName,
+              exerciseName.trimEnd(),
               sets,
               reps,
               sanitizedParams.rpe,

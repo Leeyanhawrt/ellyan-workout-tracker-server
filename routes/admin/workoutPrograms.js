@@ -104,7 +104,7 @@ module.exports = (pool) => {
         const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } = req.body;
         // Check for existing exercise and assign the same type, if not default to accessory exercise
         let type = "accessory";
-        const exerciseType = yield pool.query("SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1", [exerciseName]);
+        const exerciseType = yield pool.query("SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1", [exerciseName.trimEnd()]);
         if (exerciseType.rows.length > 0) {
             type = exerciseType.rows[0].type;
         }
@@ -121,7 +121,7 @@ module.exports = (pool) => {
             AND (rpe = $4 OR ($4 IS NULL AND rpe IS NULL))
             AND (percentage = $5 OR ($5 IS NULL AND percentage IS NULL))
           LIMIT 1`, [
-                exerciseName,
+                exerciseName.trimEnd(),
                 sets,
                 reps,
                 sanitizedParams.rpe,
