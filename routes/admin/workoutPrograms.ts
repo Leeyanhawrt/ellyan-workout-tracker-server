@@ -140,7 +140,7 @@ module.exports = (pool: Pool) => {
 
       const exerciseType = await pool.query(
         "SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1",
-        [exerciseName]
+        [exerciseName.trimEnd()]
       );
 
       if (exerciseType.rows.length > 0) {
@@ -165,7 +165,7 @@ module.exports = (pool: Pool) => {
             AND (percentage = $5 OR ($5 IS NULL AND percentage IS NULL))
           LIMIT 1`,
           [
-            exerciseName,
+            exerciseName.trimEnd(),
             sets,
             reps,
             sanitizedParams.rpe,
