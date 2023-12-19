@@ -35,7 +35,7 @@ module.exports = (pool) => {
             if (!valid) {
                 return res.status(400).json({ error: "Missing Required Fields" });
             }
-            const data = yield pool.query(`UPDATE users SET first_name = $1, last_name = $2, email = $3, gender = $4, bodyweight = $5, roundDown = $6 WHERE id = $7;`, [
+            const data = yield pool.query(`UPDATE users SET first_name = $1, last_name = $2, email = $3, gender = $4, bodyweight = $5, round_down = $6 WHERE id = $7;`, [
                 firstName,
                 lastName,
                 email.toLowerCase(),

@@ -28,7 +28,7 @@ module.exports = (pool: Pool) => {
       }
 
       const data = await pool.query(
-        `UPDATE users SET first_name = $1, last_name = $2, email = $3, gender = $4, bodyweight = $5, roundDown = $6 WHERE id = $7;`,
+        `UPDATE users SET first_name = $1, last_name = $2, email = $3, gender = $4, bodyweight = $5, round_down = $6 WHERE id = $7;`,
         [
           firstName,
           lastName,
