@@ -47,7 +47,7 @@ module.exports = (pool) => {
     }));
     router.get("/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const user = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId" FROM users WHERE id = $1', [req.params.id]);
+            const user = yield pool.query('SELECT first_name AS "firstName", last_name AS "lastName", email, gender, bodyweight, id, workout_program_id AS "workoutProgramId", roundDown FROM users WHERE id = $1', [req.params.id]);
             res.json(user.rows[0]);
         }
         catch (err) {
@@ -57,8 +57,8 @@ module.exports = (pool) => {
     }));
     router.post("/", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const { workoutProgramId, userId } = req.body;
-            const response = yield pool.query(`UPDATE users SET workout_program_id = $1 WHERE id = $2;`, [workoutProgramId, userId]);
+            const { workoutProgramId, userId, roundDown } = req.body;
+            const response = yield pool.query(`UPDATE users SET workout_program_id = $1, round_down = $2 WHERE id = $3;`, [workoutProgramId, roundDown, userId]);
             res.status(201).json({ message: "Successfully Edited User Details!" });
         }
         catch (err) {

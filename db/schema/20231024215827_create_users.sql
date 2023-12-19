@@ -10,6 +10,6 @@ CREATE TABLE users(
   gender VARCHAR(7),
   bodyweight SMALLINT,
   roles VARCHAR(30)[] DEFAULT ARRAY['member']::VARCHAR(30)[],
-  round_down BOOLEAN DEFAULT FALSE,
+  round_down BOOLEAN DEFAULT TRUE,
   workout_program_id INT DEFAULT 1 REFERENCES workout_programs(id) ON DELETE CASCADE
 );
