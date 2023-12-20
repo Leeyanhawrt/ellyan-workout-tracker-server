@@ -72,7 +72,9 @@ module.exports = (pool) => {
               WHEN type = 'main variation' THEN 2
               WHEN type = 'accessory' THEN 3
               ELSE 4 
-            END`, [req.params.id]);
+            END,
+            id`, [req.params.id]);
+            console.log(exercises.rows);
             res.json(exercises.rows);
         }
         catch (err) {

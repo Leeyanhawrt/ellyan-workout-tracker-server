@@ -82,7 +82,8 @@ module.exports = (pool: Pool) => {
               WHEN type = 'main variation' THEN 2
               WHEN type = 'accessory' THEN 3
               ELSE 4 
-            END`,
+            END,
+            id`,
           [req.params.id]
         );
 
