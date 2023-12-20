@@ -25,9 +25,9 @@ VALUES
 
 -- MAIN EXERCISES --
 
-INSERT INTO exercises(name, number_sets, number_reps, percentage, type)
+INSERT INTO exercises(name, number_sets, number_reps, percentage, type, variant)
 VALUES
-('Squat', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main'), ('Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main'), ('Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main');
+('Squat', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main', 'squat'), ('Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main', 'benchpress'), ('Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main', 'deadlift');
 
 -- VARIATION EXERCISES --
 INSERT INTO exercises(name, number_sets, number_reps, percentage, type, variant)
