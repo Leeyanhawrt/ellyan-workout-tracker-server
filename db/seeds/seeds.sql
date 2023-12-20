@@ -2,7 +2,7 @@
 
 INSERT INTO workout_programs (name)
 VALUES 
-('INTERMEDIATE 9 WEEK');
+('Dummy Program');
 
 -- TESTIMONIALS --
 INSERT INTO testimonials (first_name, last_name, title, review_description, profile_image_path)
