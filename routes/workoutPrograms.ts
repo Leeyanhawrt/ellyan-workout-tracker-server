@@ -68,7 +68,8 @@ module.exports = (pool: Pool) => {
             number_reps AS "numberReps",
             rpe,
             percentage,
-            type
+            type,
+            variant
           FROM 
             daily_workout_exercises
           JOIN
