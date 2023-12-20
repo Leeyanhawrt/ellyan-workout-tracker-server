@@ -141,16 +141,18 @@ module.exports = (pool: Pool) => {
         exerciseName: exerciseName.trimEnd(),
       };
 
-      // Check for existing exercise and assign the same type, if not default to accessory exercise
+      // Check for existing exercise and variant and assign the same type, if not default to accessory exercise
       let type = "accessory";
+      let variant;
 
       const exerciseType = await pool.query(
-        "SELECT type FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1",
+        "SELECT type, variant FROM exercises WHERE name = $1 AND type IS NOT NULL LIMIT 1",
         [sanitizedParams.exerciseName]
       );
 
       if (exerciseType.rows.length > 0) {
         type = exerciseType.rows[0].type;
+        variant = exerciseType.rows[0].variant;
       }
 
       try {
@@ -159,7 +161,7 @@ module.exports = (pool: Pool) => {
         let exercise;
 
         const existingExercise = await pool.query(
-          `SELECT id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type 
+          `SELECT id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type, variant
           FROM exercises 
           WHERE name = $1 AND number_sets = $2 AND number_reps = $3 
             AND (rpe = $4 OR ($4 IS NULL AND rpe IS NULL))
@@ -171,6 +173,7 @@ module.exports = (pool: Pool) => {
             reps,
             sanitizedParams.rpe,
             sanitizedParams.percentage,
+            variant,
           ]
         );
 
@@ -178,7 +181,7 @@ module.exports = (pool: Pool) => {
           exercise = existingExercise;
         } else {
           exercise = await pool.query(
-            `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type`,
+            `INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type, variant) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type, variant`,
             [
               sanitizedParams.exerciseName,
               sets,
@@ -186,6 +189,7 @@ module.exports = (pool: Pool) => {
               sanitizedParams.rpe,
               sanitizedParams.percentage,
               type,
+              variant,
             ]
           );
         }
