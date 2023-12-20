@@ -34,7 +34,8 @@ CREATE TABLE exercises(
   number_reps SMALLINT NOT NULL,
   rpe SMALLINT,
   percentage SMALLINT,
-  type VARCHAR(15) NOT NULL
+  type VARCHAR(15) NOT NULL,
+  variant VARCHAR(15)
 );
 
 DROP TABLE IF EXISTS daily_workout_exercises CASCADE;
