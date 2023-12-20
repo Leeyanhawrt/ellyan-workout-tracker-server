@@ -120,16 +120,16 @@ module.exports = (pool) => {
             let exercise;
             const existingExercise = yield pool.query(`SELECT id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type, variant
           FROM exercises 
-          WHERE name = $1 AND number_sets = $2 AND number_reps = $3 
-            AND (rpe = $4 OR ($4 IS NULL AND rpe IS NULL))
-            AND (percentage = $5 OR ($5 IS NULL AND percentage IS NULL))
+          WHERE name = $1 AND number_sets = $2 AND number_reps = $3 AND variant = $4 
+            AND (rpe = $5 OR ($5 IS NULL AND rpe IS NULL))
+            AND (percentage = $6 OR ($6 IS NULL AND percentage IS NULL))
           LIMIT 1`, [
                 sanitizedParams.exerciseName,
                 sets,
                 reps,
+                variant,
                 sanitizedParams.rpe,
                 sanitizedParams.percentage,
-                variant,
             ]);
             if (existingExercise.rows.length > 0) {
                 exercise = existingExercise;
