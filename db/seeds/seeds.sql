@@ -27,24 +27,24 @@ VALUES
 
 INSERT INTO exercises(name, number_sets, number_reps, percentage, type, variant)
 VALUES
-('Squat', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main', 'squat'), ('Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main', 'benchpress'), ('Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main', 'deadlift');
+('Squat', 99, 99, 99, 'main', 'squat'), ('Bench Press', 99, 99, 99, 'main', 'benchpress'), ('Deadlift', 99, 99, 99, 'main', 'deadlift');
 
 -- VARIATION EXERCISES --
 INSERT INTO exercises(name, number_sets, number_reps, percentage, type, variant)
 VALUES
-('Close Grip Bench', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'benchpress'), ('Larsen Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'benchpress'), ('Stiff Leg Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'deadlift'),
-('Pause Squat', 3, 8, 1, 'main variation', 'squat'), ('Halting Deadlift', 3, 8, 1, 'main variation', 'deadlift'), ('Spotto Press', 3, 8, 1, 'main variation', 'benchpress'), ('Deficit Deadlift', 3, 8, 1, 'main variation', 'deadlift'),
-('Rack Pull Deadlift', 3, 8, 1, 'main variation', 'deadlift'), ('Wide Grip Bench', 3, 8, 1, 'main variation', 'benchpress'), ('Safety Bar Squats', 3, 8, 1, 'main variation', 'squat'), ('Trap Bar Deadlift', 3, 8, 1, 'main variation', 'deadlift'),
-('Deadlift To Knee', 3, 8, 1, 'main variation', 'deadlift'), ('Deadlift From Boxes', 3, 8, 1, 'main variation', 'deadlift'), ('Incline Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'benchpress'), ('Decline Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'benchpress');
+('Close Grip Bench', 99, 99, 99, 'main variation', 'benchpress'), ('Larsen Press', 99, 99, 99, 'main variation', 'benchpress'), ('Stiff Leg Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
+('Pause Squat', 99, 99, 99, 'main variation', 'squat'), ('Halting Deadlift', 99, 99, 99, 'main variation', 'deadlift'), ('Spotto Press', 99, 99, 99, 'main variation', 'benchpress'), ('Deficit Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
+('Rack Pull Deadlift', 99, 99, 99, 'main variation', 'deadlift'), ('Wide Grip Bench', 99, 99, 99, 'main variation', 'benchpress'), ('Safety Bar Squats', 99, 99, 99, 'main variation', 'squat'), ('Trap Bar Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
+('Deadlift To Knee', 99, 99, 99, 'main variation', 'deadlift'), ('Deadlift From Boxes', 99, 99, 99, 'main variation', 'deadlift'), ('Incline Bench Press', 99, 99, 99, 'main variation', 'benchpress'), ('Decline Bench Press', 99, 99, 99, 'main variation', 'benchpress');
 
 -- ACCESSORY EXERCISES --
 INSERT INTO exercises(name, number_sets, number_reps, rpe, type)
 VALUES
-('Bulgarian Split Squat', 4, 12, 1 + FLOOR(RANDOM() * 10), 'accessory'), ('Bicep Curl', 3, 12, 1 + FLOOR(RANDOM() * 10), 'accessory'), ('Tricep Rope Extension', 3, 10, 1 + FLOOR(RANDOM() * 10), 'accessory'),
-('Dumbbell Press', 4, 10, 1 + FLOOR(RANDOM() * 10), 'accessory'), ('Incline Dumbbell Press', 4, 12, 1 + FLOOR(RANDOM() * 10), 'accessory'),
-('Shoulder Press', 3, 8, 1 + FLOOR(RANDOM() * 10), 'accessory');
--- DAILY WORKOUTS --
+('Bulgarian Split Squat', 99, 99, 99, 'accessory'), ('Bicep Curl', 99, 99, 99, 'accessory'), ('Tricep Rope Extension', 99, 99, 99, 'accessory'),
+('Dumbbell Press', 99, 99, 99, 'accessory'), ('Incline Dumbbell Press', 99, 99, 99, 'accessory'),
+('Shoulder Press', 99, 99, 99,'accessory');
 
+-- DAILY WORKOUTS --
 DO $$ 
 DECLARE
     day_number INT;
@@ -59,7 +59,6 @@ BEGIN
 END $$;
 
 -- DAILY WORKOUT EXERCISES --
-
 INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id)
 SELECT
   dw.id AS daily_workout_id,
