@@ -35,7 +35,8 @@ VALUES
 ('Close Grip Bench', 99, 99, 99, 'main variation', 'benchpress'), ('Larsen Press', 99, 99, 99, 'main variation', 'benchpress'), ('Stiff Leg Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
 ('Pause Squat', 99, 99, 99, 'main variation', 'squat'), ('Halting Deadlift', 99, 99, 99, 'main variation', 'deadlift'), ('Spotto Press', 99, 99, 99, 'main variation', 'benchpress'), ('Deficit Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
 ('Rack Pull Deadlift', 99, 99, 99, 'main variation', 'deadlift'), ('Wide Grip Bench', 99, 99, 99, 'main variation', 'benchpress'), ('Safety Bar Squats', 99, 99, 99, 'main variation', 'squat'), ('Trap Bar Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
-('Deadlift To Knee', 99, 99, 99, 'main variation', 'deadlift'), ('Deadlift From Boxes', 99, 99, 99, 'main variation', 'deadlift'), ('Incline Bench Press', 99, 99, 99, 'main variation', 'benchpress'), ('Decline Bench Press', 99, 99, 99, 'main variation', 'benchpress');
+('Deadlift To Knee', 99, 99, 99, 'main variation', 'deadlift'), ('Deadlift From Boxes', 99, 99, 99, 'main variation', 'deadlift'), ('Incline Bench Press', 99, 99, 99, 'main variation', 'benchpress'), ('Decline Bench Press', 99, 99, 99, 'main variation', 'benchpress'),
+('Snatch Grip Rack Pull', 99, 99, 99, 'main variation', 'deadlift'), ('Snatch Grip Rack Pull (Slow Eccentric)', 99, 99, 99, 'main variation', 'deadlift'), ('Snatch Grip Deadlift', 99, 99, 99, 'main variation', 'deadlift');  
 
 -- ACCESSORY EXERCISES --
 INSERT INTO exercises(name, number_sets, number_reps, rpe, type)
