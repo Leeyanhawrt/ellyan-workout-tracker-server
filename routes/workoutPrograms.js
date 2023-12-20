@@ -73,8 +73,7 @@ module.exports = (pool) => {
               WHEN type = 'accessory' THEN 3
               ELSE 4 
             END,
-            id`, [req.params.id]);
-            console.log(exercises.rows);
+            daily_workout_exercises.id`, [req.params.id]);
             res.json(exercises.rows);
         }
         catch (err) {
