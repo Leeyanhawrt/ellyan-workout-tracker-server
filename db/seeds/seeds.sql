@@ -30,12 +30,12 @@ VALUES
 ('Squat', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main'), ('Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main'), ('Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main');
 
 -- VARIATION EXERCISES --
-INSERT INTO exercises(name, number_sets, number_reps, percentage, type)
+INSERT INTO exercises(name, number_sets, number_reps, percentage, type, variant)
 VALUES
-('Close Grip Bench', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation'), ('Larsen Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation'), ('Stiff Leg Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main variation'),
-('Pause Squat', 3, 8, 1, 'main variation'), ('Halting Deadlift', 3, 8, 1, 'main variation'), ('Spotto Press', 3, 8, 1, 'main variation'), ('Deficit Deadlift', 3, 8, 1, 'main variation'),
-('Rack Pull Deadlift', 3, 8, 1, 'main variation'), ('Wide Grip Bench', 3, 8, 1, 'main variation'), ('Safety Bar Squats', 3, 8, 1, 'main variation'), ('Trap Bar Deadlift', 3, 8, 1, 'main variation'),
-('Deadlift To Knee', 3, 8, 1, 'main variation'), ('Deadlift From Boxes', 3, 8, 1, 'main variation'), ('Incline Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation'), ('Decline Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation');
+('Close Grip Bench', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'bench'), ('Larsen Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'bench'), ('Stiff Leg Deadlift', 4, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'deadlift'),
+('Pause Squat', 3, 8, 1, 'main variation', 'squat'), ('Halting Deadlift', 3, 8, 1, 'main variation', 'deadlift'), ('Spotto Press', 3, 8, 1, 'main variation', 'bench'), ('Deficit Deadlift', 3, 8, 1, 'main variation', 'deadlift'),
+('Rack Pull Deadlift', 3, 8, 1, 'main variation', 'deadlift'), ('Wide Grip Bench', 3, 8, 1, 'main variation', 'bench'), ('Safety Bar Squats', 3, 8, 1, 'main variation', 'squat'), ('Trap Bar Deadlift', 3, 8, 1, 'main variation', 'deadlift'),
+('Deadlift To Knee', 3, 8, 1, 'main variation', 'deadlift'), ('Deadlift From Boxes', 3, 8, 1, 'main variation', 'deadlift'), ('Incline Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'bench'), ('Decline Bench Press', 3, 8, 1 + FLOOR(RANDOM() * 100), 'main variation', 'bench');
 
 -- ACCESSORY EXERCISES --
 INSERT INTO exercises(name, number_sets, number_reps, rpe, type)
