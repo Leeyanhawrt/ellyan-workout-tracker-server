@@ -32,7 +32,7 @@ CREATE TABLE exercises(
   name VARCHAR(255) NOT NULL,
   number_sets SMALLINT NOT NULL,
   number_reps SMALLINT NOT NULL,
-  rpe SMALLINT,
+  rpe DECIMAL,
   percentage SMALLINT,
   type VARCHAR(15) NOT NULL,
   variant VARCHAR(15)
