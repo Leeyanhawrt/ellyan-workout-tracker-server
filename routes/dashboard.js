@@ -26,6 +26,24 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Fetching Dashboard");
         }
     }));
+    router.get("/orm-records/:userId", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const userId = req.params.userId;
+        try {
+            const record = yield pool.query(`SELECT 
+            squat, 
+            benchpress, 
+            deadlift 
+          FROM personal_records 
+            WHERE user_id = $1    
+          ORDER BY 
+            created_at DESC`, [userId]);
+            res.status(200).json(record.rows);
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json("Server Error Fetching User Records");
+        }
+    }));
     router.get("/orm-records", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const record = yield pool.query(`SELECT 

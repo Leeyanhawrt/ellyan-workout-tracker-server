@@ -21,6 +21,33 @@ module.exports = (pool: Pool) => {
   });
 
   router.get(
+    "/orm-records/:userId",
+    authorization,
+    async (req: Request, res: Response) => {
+      const userId = req.params.userId;
+
+      try {
+        const record = await pool.query(
+          `SELECT 
+            squat, 
+            benchpress, 
+            deadlift 
+          FROM personal_records 
+            WHERE user_id = $1    
+          ORDER BY 
+            created_at DESC`,
+          [userId]
+        );
+
+        res.status(200).json(record.rows);
+      } catch (err) {
+        console.log(err);
+        res.status(500).json("Server Error Fetching User Records");
+      }
+    }
+  );
+
+  router.get(
     "/orm-records",
     authorization,
     async (req: Request, res: Response) => {
