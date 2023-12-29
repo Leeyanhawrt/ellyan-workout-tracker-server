@@ -14,11 +14,14 @@ module.exports = (pool: Pool) => {
         const microcycles = await pool.query(
           `SELECT 
             microcycle_number AS "microcycleNumber", 
-            id 
+            phase,
+            id
           FROM 
             microcycles
           WHERE 
-            workout_program_id = $1`,
+            workout_program_id = $1
+          ORDER BY 
+            id`,
           [req.params.id]
         );
 
