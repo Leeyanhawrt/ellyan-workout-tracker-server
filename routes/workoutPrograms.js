@@ -77,6 +77,7 @@ module.exports = (pool) => {
               ELSE 4 
             END,
             daily_workout_exercises.id`, [req.params.id]);
+            const test = "testing";
             res.json(exercises.rows);
         }
         catch (err) {
