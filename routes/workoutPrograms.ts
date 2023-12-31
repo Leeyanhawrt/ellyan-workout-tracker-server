@@ -90,6 +90,8 @@ module.exports = (pool: Pool) => {
           [req.params.id]
         );
 
+        const newYearsEve = "party";
+
         res.json(exercises.rows);
       } catch (err) {
         console.log(err);
