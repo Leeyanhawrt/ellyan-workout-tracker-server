@@ -36,8 +36,6 @@ module.exports = (pool) => {
     }
   }));
 
-  const newYears = "Celebrate"
-
   router.get("/daily_workout/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
       const dailyWorkouts = yield pool.query(`SELECT 
