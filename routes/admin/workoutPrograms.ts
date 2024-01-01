@@ -62,6 +62,31 @@ module.exports = (pool: Pool) => {
     }
   });
 
+  router.put(
+    "/microcycle/:id",
+    authorization,
+    async (req: Request, res: Response) => {
+      const { phaseInput } = req.body;
+
+      try {
+        const microcycle = await pool.query(
+          `UPDATE microcycles SET phase = $1 WHERE id = $2 RETURNING phase, id, microcycle_number AS "microcycleNumber"`,
+          [phaseInput, req.params.id]
+        );
+
+        res.status(200).json({
+          message: "Successfully Updated Microcycle Phase",
+          microcycle: microcycle.rows[0],
+        });
+      } catch (err) {
+        console.error(err);
+        res
+          .status(500)
+          .json({ error: "Server Error Updating Microcycle Phase" });
+      }
+    }
+  );
+
   router.post(
     "/microcycle",
     authorization,

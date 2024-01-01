@@ -60,6 +60,22 @@ module.exports = (pool) => {
             res.status(500).json({ error: "Server Error Deleting Workout Program" });
         }
     }));
+    router.put("/microcycle/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { phaseInput } = req.body;
+        try {
+            const microcycle = yield pool.query(`UPDATE microcycles SET phase = $1 WHERE id = $2 RETURNING phase, id, microcycle_number AS "microcycleNumber"`, [phaseInput, req.params.id]);
+            res.status(200).json({
+                message: "Successfully Updated Microcycle Phase",
+                microcycle: microcycle.rows[0],
+            });
+        }
+        catch (err) {
+            console.error(err);
+            res
+                .status(500)
+                .json({ error: "Server Error Updating Microcycle Phase" });
+        }
+    }));
     router.post("/microcycle", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { microcycleNumber, workoutProgramId } = req.body;
         try {
