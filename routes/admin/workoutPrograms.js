@@ -199,7 +199,6 @@ module.exports = (pool) => {
             res.status(500).json({ error: "Server Error Creating New Exercise" });
         }
     }));
-    const newBranch = "Copying previous week workout";
     router.delete("/exercise/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const exercise = yield pool.query(`DELETE FROM daily_workout_exercises WHERE id = $1`, [req.params.id]);

@@ -274,8 +274,6 @@ module.exports = (pool: Pool) => {
     }
   );
 
-  const newBranch = "Copying previous week workout";
-
   router.delete(
     "/exercise/:id",
     authorization,
