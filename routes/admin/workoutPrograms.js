@@ -116,8 +116,8 @@ module.exports = (pool) => {
                 .json({ error: "Server Error Creating New Daily Workout" });
         }
     }));
-    router.post("/exercise", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } = req.body;
+    router.put("/exercise", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id, exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } = req.body;
         const sanitizedParams = {
             rpe: rpe || null,
             percentage: percentage || null,
@@ -162,11 +162,35 @@ module.exports = (pool) => {
                 ]);
             }
             const exerciseId = exercise.rows[0].id;
-            const dailyWorkoutProgram = yield pool.query(`INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkoutId, exerciseId]);
+            let action;
+            let dailyWorkout;
+            if (id) {
+                dailyWorkout = yield pool.query(`UPDATE daily_workout_exercises SET exercise_id = $1 WHERE id = $2  RETURNING id`, [exerciseId, id]);
+                action = "update";
+            }
+            else {
+                yield pool.query(`INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkoutId, exerciseId]);
+                action = "create";
+            }
             yield pool.query("COMMIT");
-            res.status(201).json({
-                message: "Successfully Created New Exercise",
-                dailyWorkout: exercise.rows[0],
+            let response = {
+                code: 0,
+                message: "",
+                dailyWorkoutId: undefined,
+            };
+            if (action === "create") {
+                response.code = 201;
+                response.message = "Successfully Created New Exercise";
+            }
+            else if (action === "update") {
+                response.code = 200;
+                response.message = "Successfully Updated Exercise";
+                response.dailyWorkoutId = dailyWorkout.rows[0].id;
+            }
+            res.status(response.code).json({
+                message: response.message,
+                exercise: exercise.rows[0],
+                dailyWorkoutId: response.dailyWorkoutId,
             });
         }
         catch (err) {

@@ -153,11 +153,11 @@ module.exports = (pool: Pool) => {
     }
   );
 
-  router.post(
+  router.put(
     "/exercise",
     authorization,
     async (req: Request, res: Response) => {
-      const { exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } =
+      const { id, exerciseName, sets, reps, rpe, percentage, dailyWorkoutId } =
         req.body;
 
       const sanitizedParams = {
@@ -221,16 +221,50 @@ module.exports = (pool: Pool) => {
 
         const exerciseId = exercise.rows[0].id;
 
-        const dailyWorkoutProgram = await pool.query(
-          `INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`,
-          [dailyWorkoutId, exerciseId]
-        );
+        let action;
+        let dailyWorkout;
+
+        if (id) {
+          dailyWorkout = await pool.query(
+            `UPDATE daily_workout_exercises SET exercise_id = $1 WHERE id = $2  RETURNING id`,
+            [exerciseId, id]
+          );
+          action = "update";
+        } else {
+          await pool.query(
+            `INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`,
+            [dailyWorkoutId, exerciseId]
+          );
+          action = "create";
+        }
 
         await pool.query("COMMIT");
 
-        res.status(201).json({
-          message: "Successfully Created New Exercise",
-          dailyWorkout: exercise.rows[0],
+        type ExerciseResponse = {
+          code: number;
+          message: string;
+          dailyWorkoutId: number | undefined;
+        };
+
+        let response: ExerciseResponse = {
+          code: 0,
+          message: "",
+          dailyWorkoutId: undefined,
+        };
+
+        if (action === "create") {
+          response.code = 201;
+          response.message = "Successfully Created New Exercise";
+        } else if (action === "update") {
+          response.code = 200;
+          response.message = "Successfully Updated Exercise";
+          response.dailyWorkoutId = dailyWorkout!.rows[0].id;
+        }
+
+        res.status(response.code).json({
+          message: response.message,
+          exercise: exercise.rows[0],
+          dailyWorkoutId: response.dailyWorkoutId,
         });
       } catch (err) {
         await pool.query("ROLLBACK");
