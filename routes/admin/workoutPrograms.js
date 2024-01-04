@@ -217,10 +217,11 @@ module.exports = (pool) => {
             yield pool.query("BEGIN");
             // Fetch all daily workouts that match the previous microcycle id that is given
             const copiedDailyWorkouts = yield pool.query(`SELECT id FROM daily_workouts WHERE microcycle_id = $1`, [previousMicrocycleId]);
-            copiedDailyWorkouts.rows.forEach((dailyWorkout, index) => { });
-            for (const dailyWorkout of copiedDailyWorkouts.rows) {
-                yield pool.query(`INSERT INTO daily_workouts day_number, microcycle_id VALUES ($1, $2)`, []);
-            }
+            const insertedDailyWorkouts = copiedDailyWorkouts.rows.map((dailyWorkout, index) => __awaiter(void 0, void 0, void 0, function* () {
+                yield pool.query(`INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2)`),
+                    [index + 1, newMicrocycleId];
+            }));
+            yield Promise.all(insertedDailyWorkouts);
             // Create as many daily workouts with the new microcycle id as there were from step 1
             // Return all daily_workout_exercises that match step 1 with the same daily workout id
             // One at a time take each new daily workout id that was created and add into daily workout exercises the exercises_id

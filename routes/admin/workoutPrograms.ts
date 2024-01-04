@@ -309,14 +309,16 @@ module.exports = (pool: Pool) => {
           [previousMicrocycleId]
         );
 
-        copiedDailyWorkouts.rows.forEach((dailyWorkout, index) => {});
+        const insertedDailyWorkouts = copiedDailyWorkouts.rows.map(
+          async (dailyWorkout, index) => {
+            await pool.query(
+              `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2)`
+            ),
+              [index + 1, newMicrocycleId];
+          }
+        );
 
-        for (const dailyWorkout of copiedDailyWorkouts.rows) {
-          await pool.query(
-            `INSERT INTO daily_workouts day_number, microcycle_id VALUES ($1, $2)`,
-            []
-          );
-        }
+        await Promise.all(insertedDailyWorkouts);
 
         // Create as many daily workouts with the new microcycle id as there were from step 1
         // Return all daily_workout_exercises that match step 1 with the same daily workout id
