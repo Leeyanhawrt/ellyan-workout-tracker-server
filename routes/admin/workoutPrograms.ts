@@ -298,6 +298,8 @@ module.exports = (pool: Pool) => {
     try {
       const { previousMicrocycleId, newMicrocycleId } = req.body;
 
+      console.log(`HIT WITH ${previousMicrocycleId} AND ${newMicrocycleId}`);
+
       await pool.query("BEGIN");
 
       // Fetch all daily workouts that match the previous microcycle id that is given
@@ -306,24 +308,22 @@ module.exports = (pool: Pool) => {
         [previousMicrocycleId]
       );
 
-      const insertedDailyWorkouts = copiedDailyWorkouts.rows.map(
-        async (dailyWorkout, index) => {
-          await pool.query(
-            `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2)`,
-            [index + 1, newMicrocycleId]
-          );
-        }
-      );
+      console.log(copiedDailyWorkouts.rows);
 
-      await Promise.all(insertedDailyWorkouts);
-
-      console.log(insertedDailyWorkouts);
+      for (let i = 0; i < copiedDailyWorkouts.rows.length; i++) {
+        await pool.query(
+          `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2)`,
+          [i + 1, newMicrocycleId]
+        );
+      }
 
       // Create as many daily workouts with the new microcycle id as there were from step 1
       // Return all daily_workout_exercises that match step 1 with the same daily workout id
       // One at a time take each new daily workout id that was created and add into daily workout exercises the exercises_id
       await pool.query("COMMIT");
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
   });
 
   return router;
