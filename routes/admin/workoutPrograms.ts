@@ -294,39 +294,38 @@ module.exports = (pool: Pool) => {
     }
   );
 
-  router.post(
-    "/copy_previous_week",
-    authorization,
-    async (req: Request, res: Response) => {
-      try {
-        const { previousMicrocycleId, newMicrocycleId } = req.body;
+  router.post("/copy_previous_week", async (req: Request, res: Response) => {
+    try {
+      const { previousMicrocycleId, newMicrocycleId } = req.body;
 
-        await pool.query("BEGIN");
+      await pool.query("BEGIN");
 
-        // Fetch all daily workouts that match the previous microcycle id that is given
-        const copiedDailyWorkouts = await pool.query(
-          `SELECT id FROM daily_workouts WHERE microcycle_id = $1`,
-          [previousMicrocycleId]
-        );
+      // Need to go through every inserted workout and get the exercises
+      // Fetch all daily workouts that match the previous microcycle id that is given
+      const copiedDailyWorkouts = await pool.query(
+        `SELECT id FROM daily_workouts WHERE microcycle_id = $1`,
+        [previousMicrocycleId]
+      );
 
-        const insertedDailyWorkouts = copiedDailyWorkouts.rows.map(
-          async (dailyWorkout, index) => {
-            await pool.query(
-              `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2)`
-            ),
-              [index + 1, newMicrocycleId];
-          }
-        );
+      const insertedDailyWorkouts = copiedDailyWorkouts.rows.map(
+        async (dailyWorkout, index) => {
+          await pool.query(
+            `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2)`,
+            [index + 1, newMicrocycleId]
+          );
+        }
+      );
 
-        await Promise.all(insertedDailyWorkouts);
+      await Promise.all(insertedDailyWorkouts);
 
-        // Create as many daily workouts with the new microcycle id as there were from step 1
-        // Return all daily_workout_exercises that match step 1 with the same daily workout id
-        // One at a time take each new daily workout id that was created and add into daily workout exercises the exercises_id
-        await pool.query("COMMIT");
-      } catch (err) {}
-    }
-  );
+      console.log(insertedDailyWorkouts);
+
+      // Create as many daily workouts with the new microcycle id as there were from step 1
+      // Return all daily_workout_exercises that match step 1 with the same daily workout id
+      // One at a time take each new daily workout id that was created and add into daily workout exercises the exercises_id
+      await pool.query("COMMIT");
+    } catch (err) {}
+  });
 
   return router;
 };
