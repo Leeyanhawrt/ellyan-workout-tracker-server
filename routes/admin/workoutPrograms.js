@@ -215,7 +215,6 @@ module.exports = (pool) => {
         try {
             const { previousMicrocycleId, newMicrocycleId } = req.body;
             yield pool.query("BEGIN");
-            // Need to go through every inserted workout and get the exercises
             // Fetch all daily workouts that match the previous microcycle id that is given
             const copiedDailyWorkouts = yield pool.query(`SELECT id FROM daily_workouts WHERE microcycle_id = $1`, [previousMicrocycleId]);
             const insertedDailyWorkouts = copiedDailyWorkouts.rows.map((dailyWorkout, index) => __awaiter(void 0, void 0, void 0, function* () {

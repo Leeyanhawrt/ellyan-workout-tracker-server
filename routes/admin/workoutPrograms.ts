@@ -300,7 +300,6 @@ module.exports = (pool: Pool) => {
 
       await pool.query("BEGIN");
 
-      // Need to go through every inserted workout and get the exercises
       // Fetch all daily workouts that match the previous microcycle id that is given
       const copiedDailyWorkouts = await pool.query(
         `SELECT id FROM daily_workouts WHERE microcycle_id = $1`,
