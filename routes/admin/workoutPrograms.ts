@@ -308,8 +308,6 @@ module.exports = (pool: Pool) => {
         [previousMicrocycleId]
       );
 
-      console.log(copiedDailyWorkouts.rows);
-
       for (let i = 0; i < copiedDailyWorkouts.rows.length; i++) {
         await pool.query(
           `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2)`,

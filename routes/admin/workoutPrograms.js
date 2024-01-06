@@ -218,7 +218,6 @@ module.exports = (pool) => {
             yield pool.query("BEGIN");
             // Fetch all daily workouts that match the previous microcycle id that is given
             const copiedDailyWorkouts = yield pool.query(`SELECT id FROM daily_workouts WHERE microcycle_id = $1`, [previousMicrocycleId]);
-            console.log(copiedDailyWorkouts.rows);
             for (let i = 0; i < copiedDailyWorkouts.rows.length; i++) {
                 yield pool.query(`INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2)`, [i + 1, newMicrocycleId]);
             }
