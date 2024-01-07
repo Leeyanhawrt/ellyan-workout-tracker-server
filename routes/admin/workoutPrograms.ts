@@ -299,8 +299,21 @@ module.exports = (pool: Pool) => {
       const { previousMicrocycleId, newMicrocycleId } = req.body;
 
       if (!previousMicrocycleId) {
+        console.error("Can't copy previous microcycle when one doesn't exist");
         res.status(500).json({
           error: "Can't copy previous microcycle when one doesn't exist",
+        });
+      }
+
+      const workoutProgramIsSet = await pool.query(
+        `SELECT id FROM daily_workouts WHERE microcycle_id = $1`,
+        [newMicrocycleId]
+      );
+
+      if (workoutProgramIsSet.rows.length) {
+        console.error("Microcycle must be empty to copy previous instance");
+        res.status(500).json({
+          error: "Microcycle must be empty to copy previous instance",
         });
       }
 
@@ -342,7 +355,7 @@ module.exports = (pool: Pool) => {
       }
 
       res.status(201).json({
-        data: response,
+        dailyWorkouts: response,
         message: "Successfully Copied Previous Microcycle",
       });
 
