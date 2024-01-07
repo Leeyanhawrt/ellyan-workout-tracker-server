@@ -217,23 +217,33 @@ module.exports = (pool) => {
             yield pool.query("BEGIN");
             // Fetch all daily workouts that match the previous microcycle id that is passed in
             const copiedDailyWorkouts = yield pool.query(`SELECT id FROM daily_workouts WHERE microcycle_id = $1`, [previousMicrocycleId]);
+            const response = [];
             // Create a new daily workout for each fetched daily workout with the new microcycle id as the foreign key
             for (let i = 0; i < copiedDailyWorkouts.rows.length; i++) {
-                const dailyWorkout = yield pool.query(`INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2) RETURNING id`, [i + 1, newMicrocycleId]);
-                // Fetch all workout exercises for each existing microcycle that is being copied
-                const workoutExercises = yield pool.query(`SELECT exercises.id, name, number_sets, number_reps, rpe, percentage, type, variant 
-          FROM exercises 
-          JOIN daily_workout_exercises ON exercises.id = daily_workout_exercises.exercise_id 
-          WHERE daily_workout_id = $1;`, [copiedDailyWorkouts.rows[i].id]);
-                // Insert the copied exercises into each new daily workout
-                for (let j = 0; j < workoutExercises.rows.length; j++) {
-                    yield pool.query(`INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkout.rows[0].id, workoutExercises.rows[j].id]);
-                }
+                const dailyWorkout = yield pool.query(`INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2) RETURNING id, day_number AS "dayNumber", microcycle_id AS "microcycleId"`, [i + 1, newMicrocycleId]);
+                response.push(dailyWorkout.rows[0]);
+                //   // Fetch all workout exercises for each existing microcycle that is being copied
+                //   const workoutExercises = await pool.query(
+                //     `SELECT exercises.id, name, number_sets, number_reps, rpe, percentage, type, variant
+                //     FROM exercises
+                //     JOIN daily_workout_exercises ON exercises.id = daily_workout_exercises.exercise_id
+                //     WHERE daily_workout_id = $1;`,
+                //     [copiedDailyWorkouts.rows[i].id]
+                //   );
+                //   // Insert the copied exercises into each new daily workout
+                //   for (let j = 0; j < workoutExercises.rows.length; j++) {
+                //     await pool.query(
+                //       `INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`,
+                //       [dailyWorkout.rows[0].id, workoutExercises.rows[j].id]
+                //     );
+                //   }
             }
+            console.log(response);
             yield pool.query("COMMIT");
         }
         catch (err) {
             console.error(err);
+            res.status(500).json({ error: "Server Error Copying Microcycle" });
         }
     }));
     return router;

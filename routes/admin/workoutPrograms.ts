@@ -298,6 +298,12 @@ module.exports = (pool: Pool) => {
     try {
       const { previousMicrocycleId, newMicrocycleId } = req.body;
 
+      if (!previousMicrocycleId) {
+        res.status(500).json({
+          error: "Can't copy previous microcycle when one doesn't exist",
+        });
+      }
+
       await pool.query("BEGIN");
 
       // Fetch all daily workouts that match the previous microcycle id that is passed in
@@ -306,19 +312,23 @@ module.exports = (pool: Pool) => {
         [previousMicrocycleId]
       );
 
+      const response = [];
+
       // Create a new daily workout for each fetched daily workout with the new microcycle id as the foreign key
       for (let i = 0; i < copiedDailyWorkouts.rows.length; i++) {
         const dailyWorkout = await pool.query(
-          `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2) RETURNING id`,
+          `INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2) RETURNING id, day_number AS "dayNumber", microcycle_id AS "microcycleId"`,
           [i + 1, newMicrocycleId]
         );
 
+        response.push(dailyWorkout.rows[0]);
+
         // Fetch all workout exercises for each existing microcycle that is being copied
         const workoutExercises = await pool.query(
-          `SELECT exercises.id, name, number_sets, number_reps, rpe, percentage, type, variant 
-          FROM exercises 
-          JOIN daily_workout_exercises ON exercises.id = daily_workout_exercises.exercise_id 
-          WHERE daily_workout_id = $1;`,
+          `SELECT exercises.id, name, number_sets, number_reps, rpe, percentage, type, variant
+            FROM exercises
+            JOIN daily_workout_exercises ON exercises.id = daily_workout_exercises.exercise_id
+            WHERE daily_workout_id = $1;`,
           [copiedDailyWorkouts.rows[i].id]
         );
 
@@ -330,9 +340,16 @@ module.exports = (pool: Pool) => {
           );
         }
       }
+
+      res.status(201).json({
+        data: response,
+        message: "Successfully Copied Previous Microcycle",
+      });
+
       await pool.query("COMMIT");
     } catch (err) {
       console.error(err);
+      res.status(500).json({ error: "Server Error Copying Microcycle" });
     }
   });
 
