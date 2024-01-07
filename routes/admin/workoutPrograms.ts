@@ -305,12 +305,12 @@ module.exports = (pool: Pool) => {
         });
       }
 
-      const workoutProgramIsSet = await pool.query(
+      const workoutProgram = await pool.query(
         `SELECT id FROM daily_workouts WHERE microcycle_id = $1`,
         [newMicrocycleId]
       );
 
-      if (workoutProgramIsSet.rows.length) {
+      if (workoutProgram.rows.length) {
         console.error("Microcycle must be empty to copy previous instance");
         res.status(500).json({
           error: "Microcycle must be empty to copy previous instance",
