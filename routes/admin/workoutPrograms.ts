@@ -354,6 +354,8 @@ module.exports = (pool: Pool) => {
         }
       }
 
+      console.log(response);
+
       res.status(201).json({
         dailyWorkouts: response,
         message: "Successfully Copied Previous Microcycle",
