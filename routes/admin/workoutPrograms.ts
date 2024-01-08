@@ -300,7 +300,7 @@ module.exports = (pool: Pool) => {
 
       if (!previousMicrocycleId) {
         console.error("Can't copy previous microcycle when one doesn't exist");
-        res.status(500).json({
+        return res.status(500).json({
           error: "Can't copy previous microcycle when one doesn't exist",
         });
       }
@@ -310,9 +310,11 @@ module.exports = (pool: Pool) => {
         [newMicrocycleId]
       );
 
+      console.log(workoutProgram.rows, newMicrocycleId);
+
       if (workoutProgram.rows.length) {
         console.error("Microcycle must be empty to copy previous instance");
-        res.status(500).json({
+        return res.status(500).json({
           error: "Microcycle must be empty to copy previous instance",
         });
       }
