@@ -245,7 +245,6 @@ module.exports = (pool) => {
                     yield pool.query(`INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkout.rows[0].id, workoutExercises.rows[j].id]);
                 }
             }
-            console.log("Start Working");
             res.status(201).json({
                 dailyWorkouts: response,
                 message: "Successfully Copied Previous Microcycle",
