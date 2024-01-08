@@ -215,17 +215,16 @@ module.exports = (pool) => {
         try {
             const { previousMicrocycleId, newMicrocycleId } = req.body;
             if (!previousMicrocycleId) {
-                console.error("Can't copy previous microcycle when one doesn't exist");
+                console.error("Can't Copy Previous Microcycle When One Doesn't Exist");
                 return res.status(500).json({
-                    error: "Can't copy previous microcycle when one doesn't exist",
+                    error: "Can't Copy Previous Microcycle When One Doesn't Exist",
                 });
             }
             const workoutProgram = yield pool.query(`SELECT id FROM daily_workouts WHERE microcycle_id = $1`, [newMicrocycleId]);
-            console.log(workoutProgram.rows, newMicrocycleId);
-            if (workoutProgram.rows.length) {
-                console.error("Microcycle must be empty to copy previous instance");
+            if (workoutProgram.rows.length > 1) {
+                console.error("Microcycle Must Be Empty to Copy Previous Instance");
                 return res.status(500).json({
-                    error: "Microcycle must be empty to copy previous instance",
+                    error: "Microcycle Must Be Empty to Copy Previous Instance",
                 });
             }
             yield pool.query("BEGIN");
