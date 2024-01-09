@@ -71,10 +71,12 @@ module.exports = (pool) => {
             daily_workout_id = $1
           ORDER BY
             CASE
-              WHEN type = 'main' THEN 1
-              WHEN type = 'main variation' THEN 2
-              WHEN type = 'accessory' THEN 3
-              ELSE 4 
+              WHEN name = 'Bench Press' THEN 1
+              WHEN name = 'Squat' THEN 2
+              WHEN name = 'Deadlift' THEN 3
+              WHEN type = 'main variation' THEN 4
+              WHEN type = 'accessory' THEN 5
+              ELSE 6
             END,
             workout_exercises.id`, [req.params.id]);
             res.json(exercises.rows);
