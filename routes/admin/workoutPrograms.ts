@@ -353,9 +353,10 @@ module.exports = (pool: Pool) => {
 
         // Insert the copied exercises into each new daily workout
         for (let j = 0; j < workoutExercises.rows.length; j++) {
+          const { id, sets, reps, rpe, percentage } = workoutExercises.rows[j];
           await pool.query(
-            `INSERT INTO workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`,
-            [dailyWorkout.rows[0].id, workoutExercises.rows[j].id]
+            `INSERT INTO workout_exercises (daily_workout_id, exercise_id, sets, reps, rpe, percentage) VALUES ($1, $2, $3, $4, $5, $6)`,
+            [dailyWorkout.rows[0].id, id, sets, reps, rpe, percentage]
           );
         }
       }
