@@ -19,32 +19,19 @@ VALUES
 
 -- MICROCYCLES --
 
-INSERT INTO microcycles (microcycle_number, workout_program_id)
+INSERT INTO microcycles (microcycle_number, workout_program_id, phase)
 VALUES
-(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1);
-
--- MAIN EXERCISES --
-
-INSERT INTO exercises(name, number_sets, number_reps, percentage, type, variant)
-VALUES
-('Squat', 99, 99, 99, 'main', 'squat'), ('Bench Press', 99, 99, 99, 'main', 'benchpress'), ('Deadlift', 99, 99, 99, 'main', 'deadlift');
+(1, 1, 'Building 1'), (2, 1, 'Building 2'), (3, 1, 'Building 3'), (4, 1, 'Building 4'), (5, 1, 'Mid Cycle Deload'), (6, 1, 'Peak 1'), (7, 1, 'Peak 2'), (8, 1, 'Peak 3'), (9, 1, 'Test');
 
 -- VARIATION EXERCISES --
-INSERT INTO exercises(name, number_sets, number_reps, percentage, type, variant)
+INSERT INTO exercises(name, type, variant)
 VALUES
-('Close Grip Bench', 99, 99, 99, 'main variation', 'benchpress'), ('Larsen Press', 99, 99, 99, 'main variation', 'benchpress'), ('Stiff Leg Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
-('Pause Squat', 99, 99, 99, 'main variation', 'squat'), ('Halting Deadlift', 99, 99, 99, 'main variation', 'deadlift'), ('Spotto Press', 99, 99, 99, 'main variation', 'benchpress'), ('Deficit Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
-('Rack Pull Deadlift', 99, 99, 99, 'main variation', 'deadlift'), ('Wide Grip Bench', 99, 99, 99, 'main variation', 'benchpress'), ('Safety Bar Squats', 99, 99, 99, 'main variation', 'squat'), ('Trap Bar Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
-('Deadlift To Knee', 99, 99, 99, 'main variation', 'deadlift'), ('Deadlift From Boxes', 99, 99, 99, 'main variation', 'deadlift'), ('Incline Bench Press', 99, 99, 99, 'main variation', 'benchpress'), ('Decline Bench Press', 99, 99, 99, 'main variation', 'benchpress'),
-('Snatch Grip Rack Pull', 99, 99, 99, 'main variation', 'deadlift'), ('Snatch Grip Rack Pull (Slow Eccentric)', 99, 99, 99, 'main variation', 'deadlift'), ('Snatch Grip Deadlift', 99, 99, 99, 'main variation', 'deadlift'), ('Paused Deadlift', 99, 99, 99, 'main variation', 'deadlift'),
-('Safety Bar Squats (Lowbar)', 99, 99, 99, 'main variation', 'deadlift');  
-
--- ACCESSORY EXERCISES --
-INSERT INTO exercises(name, number_sets, number_reps, rpe, type)
-VALUES
-('Bulgarian Split Squat', 99, 99, 99, 'accessory'), ('Bicep Curl', 99, 99, 99, 'accessory'), ('Tricep Rope Extension', 99, 99, 99, 'accessory'),
-('Dumbbell Press', 99, 99, 99, 'accessory'), ('Incline Dumbbell Press', 99, 99, 99, 'accessory'),
-('Shoulder Press', 99, 99, 99,'accessory');
+('Close Grip Bench', 'main variation', 'benchpress'), ('Larsen Press', 'main variation', 'benchpress'), ('Stiff Leg Deadlift', 'main variation', 'deadlift'),
+('Pause Squat', 'main variation', 'squat'), ('Halting Deadlift', 'main variation', 'deadlift'), ('Spotto Press', 'main variation', 'benchpress'), ('Deficit Deadlift', 'main variation', 'deadlift'),
+('Rack Pull Deadlift', 'main variation', 'deadlift'), ('Wide Grip Bench', 'main variation', 'benchpress'), ('Safety Bar Squats', 'main variation', 'squat'), ('Trap Bar Deadlift', 'main variation', 'deadlift'),
+('Deadlift To Knee', 'main variation', 'deadlift'), ('Deadlift From Boxes', 'main variation', 'deadlift'), ('Incline Bench Press', 'main variation', 'benchpress'), ('Decline Bench Press', 'main variation', 'benchpress'),
+('Snatch Grip Rack Pull', 'main variation', 'deadlift'), ('Snatch Grip Rack Pull (Slow Eccentric)', 'main variation', 'deadlift'), ('Snatch Grip Deadlift', 'main variation', 'deadlift'), ('Paused Deadlift', 'main variation', 'deadlift'),
+('Safety Bar Squats (Lowbar)', 'main variation', 'deadlift'), ('Squat', 'main', 'squat'), ('Bench Press', 'main', 'benchpress'), ('Deadlift', 'main', 'deadlift');  
 
 -- DAILY WORKOUTS --
 DO $$ 
@@ -61,10 +48,13 @@ BEGIN
 END $$;
 
 -- DAILY WORKOUT EXERCISES --
-INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id)
+INSERT INTO workout_exercises (daily_workout_id, exercise_id, sets, reps, percentage)
 SELECT
   dw.id AS daily_workout_id,
-  1 + FLOOR(RANDOM() * 20) AS exercise_id
+  1 + FLOOR(RANDOM() * 20) AS exercise_id,
+  99 AS sets,
+  99 AS reps,
+  1 + FLOOR(RANDOM() * 100) AS percentage
 FROM
   daily_workouts dw
 CROSS JOIN LATERAL (
