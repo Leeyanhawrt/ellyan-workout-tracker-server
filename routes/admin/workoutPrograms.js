@@ -134,9 +134,9 @@ module.exports = (pool) => {
         try {
             yield pool.query("BEGIN");
             let exercise;
-            const existingExercise = yield pool.query(`SELECT id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type, variant
+            const existingExercise = yield pool.query(`SELECT id, name, sets, reps, rpe, percentage, type, variant
           FROM exercises 
-          WHERE name = $1 AND number_sets = $2 AND number_reps = $3 AND variant = $4 
+          WHERE name = $1 AND sets = $2 AND reps = $3 AND variant = $4 
             AND (rpe = $5 OR ($5 IS NULL AND rpe IS NULL))
             AND (percentage = $6 OR ($6 IS NULL AND percentage IS NULL))
           LIMIT 1`, [
@@ -151,7 +151,7 @@ module.exports = (pool) => {
                 exercise = existingExercise;
             }
             else {
-                exercise = yield pool.query(`INSERT INTO exercises (name, number_sets, number_reps, rpe, percentage, type, variant) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, name, number_sets AS "numberSets", number_reps AS "numberReps", rpe, percentage, type, variant`, [
+                exercise = yield pool.query(`INSERT INTO exercises (name, sets, reps, rpe, percentage, type, variant) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, name, sets, reps, rpe, percentage, type, variant`, [
                     sanitizedParams.exerciseName,
                     sets,
                     reps,
@@ -165,11 +165,11 @@ module.exports = (pool) => {
             let action;
             let dailyWorkout;
             if (id) {
-                dailyWorkout = yield pool.query(`UPDATE daily_workout_exercises SET exercise_id = $1 WHERE id = $2  RETURNING id`, [exerciseId, id]);
+                dailyWorkout = yield pool.query(`UPDATE workout_exercises SET exercise_id = $1 WHERE id = $2  RETURNING id`, [exerciseId, id]);
                 action = "update";
             }
             else {
-                yield pool.query(`INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkoutId, exerciseId]);
+                yield pool.query(`INSERT INTO workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkoutId, exerciseId]);
                 action = "create";
             }
             yield pool.query("COMMIT");
@@ -201,7 +201,7 @@ module.exports = (pool) => {
     }));
     router.delete("/exercise/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const exercise = yield pool.query(`DELETE FROM daily_workout_exercises WHERE id = $1`, [req.params.id]);
+            const exercise = yield pool.query(`DELETE FROM workout_exercises WHERE id = $1`, [req.params.id]);
             res.status(200).json({
                 message: "Successfully Deleted Exercise",
             });
@@ -236,13 +236,13 @@ module.exports = (pool) => {
                 const dailyWorkout = yield pool.query(`INSERT INTO daily_workouts (day_number, microcycle_id) VALUES ($1, $2) RETURNING id, day_number AS "dayNumber", microcycle_id AS "microcycleId"`, [i + 1, newMicrocycleId]);
                 response.push(dailyWorkout.rows[0]);
                 // Fetch all workout exercises for each existing microcycle that is being copied
-                const workoutExercises = yield pool.query(`SELECT exercises.id, name, number_sets, number_reps, rpe, percentage, type, variant
+                const workoutExercises = yield pool.query(`SELECT exercises.id, name, sets, reps, rpe, percentage, type, variant
             FROM exercises
-            JOIN daily_workout_exercises ON exercises.id = daily_workout_exercises.exercise_id
+            JOIN workout_exercises ON exercises.id = workout_exercises.exercise_id
             WHERE daily_workout_id = $1;`, [copiedDailyWorkouts.rows[i].id]);
                 // Insert the copied exercises into each new daily workout
                 for (let j = 0; j < workoutExercises.rows.length; j++) {
-                    yield pool.query(`INSERT INTO daily_workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkout.rows[0].id, workoutExercises.rows[j].id]);
+                    yield pool.query(`INSERT INTO workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`, [dailyWorkout.rows[0].id, workoutExercises.rows[j].id]);
                 }
             }
             res.status(201).json({

@@ -65,18 +65,18 @@ module.exports = (pool: Pool) => {
       try {
         const exercises = await pool.query(
           `SELECT 
-            daily_workout_exercises.id,
+            workout_exercises.id,
             name, 
-            number_sets AS "numberSets",
-            number_reps AS "numberReps",
+            sets,
+            reps,
             rpe,
             percentage,
             type,
             variant
           FROM 
-            daily_workout_exercises
+            workout_exercises
           JOIN
-            exercises ON daily_workout_exercises.exercise_id = exercises.id
+            exercises ON workout_exercises.exercise_id = exercises.id
           WHERE 
             daily_workout_id = $1
           ORDER BY
@@ -86,7 +86,7 @@ module.exports = (pool: Pool) => {
               WHEN type = 'accessory' THEN 3
               ELSE 4 
             END,
-            daily_workout_exercises.id`,
+            workout_exercises.id`,
           [req.params.id]
         );
 
