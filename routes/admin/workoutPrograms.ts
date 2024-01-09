@@ -186,54 +186,60 @@ module.exports = (pool: Pool) => {
         let exercise;
 
         const existingExercise = await pool.query(
-          `SELECT id, name, sets, reps, rpe, percentage, type, variant
-          FROM exercises 
-          WHERE name = $1 AND sets = $2 AND reps = $3 AND variant = $4 
-            AND (rpe = $5 OR ($5 IS NULL AND rpe IS NULL))
-            AND (percentage = $6 OR ($6 IS NULL AND percentage IS NULL))
-          LIMIT 1`,
-          [
-            sanitizedParams.exerciseName,
-            sets,
-            reps,
-            variant,
-            sanitizedParams.rpe,
-            sanitizedParams.percentage,
-          ]
+          `SELECT id FROM exercises 
+          WHERE name = $1`,
+          [sanitizedParams.exerciseName]
         );
 
         if (existingExercise.rows.length > 0) {
           exercise = existingExercise;
         } else {
           exercise = await pool.query(
-            `INSERT INTO exercises (name, sets, reps, rpe, percentage, type, variant) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, name, sets, reps, rpe, percentage, type, variant`,
-            [
-              sanitizedParams.exerciseName,
-              sets,
-              reps,
-              sanitizedParams.rpe,
-              sanitizedParams.percentage,
-              type,
-              variant,
-            ]
+            `INSERT INTO exercises (name, type, variant) VALUES ($1, $2, $3) RETURNING id, name, type, variant`,
+            [sanitizedParams.exerciseName, type, variant]
           );
         }
 
         const exerciseId = exercise.rows[0].id;
 
         let action;
-        let dailyWorkout;
+        let workoutExercise;
 
         if (id) {
-          dailyWorkout = await pool.query(
-            `UPDATE workout_exercises SET exercise_id = $1 WHERE id = $2  RETURNING id`,
-            [exerciseId, id]
+          workoutExercise = await pool.query(
+            `UPDATE workout_exercises 
+            SET exercise_id = $1, sets = $2, reps = $3, rpe = $4, percentage = $5 
+            FROM exercises 
+            WHERE workout_exercises.exercise_id = exercises.id 
+              AND workout_exercises.id = $6 
+            RETURNING workout_exercises.id, exercises.name, workout_exercises.percentage, workout_exercises.rpe, workout_exercises.reps, workout_exercises.sets, exercises.type, exercises.variant;`,
+            [
+              exerciseId,
+              sets,
+              reps,
+              sanitizedParams.rpe,
+              sanitizedParams.percentage,
+              id,
+            ]
           );
           action = "update";
         } else {
-          await pool.query(
-            `INSERT INTO workout_exercises (daily_workout_id, exercise_id) VALUES ($1, $2)`,
-            [dailyWorkoutId, exerciseId]
+          workoutExercise = await pool.query(
+            `INSERT INTO workout_exercises (daily_workout_id, exercise_id, sets, reps, rpe, percentage) 
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING 
+              id, sets, reps, rpe, percentage,
+              (SELECT name FROM exercises WHERE id = $2) AS name,
+              (SELECT type FROM exercises WHERE id = $2) AS type,
+              (SELECT variant FROM exercises WHERE id = $2) AS variant;`,
+            [
+              dailyWorkoutId,
+              exerciseId,
+              sets,
+              reps,
+              sanitizedParams.rpe,
+              sanitizedParams.percentage,
+            ]
           );
           action = "create";
         }
@@ -258,12 +264,12 @@ module.exports = (pool: Pool) => {
         } else if (action === "update") {
           response.code = 200;
           response.message = "Successfully Updated Exercise";
-          response.dailyWorkoutId = dailyWorkout!.rows[0].id;
+          response.dailyWorkoutId = workoutExercise.rows[0].id;
         }
 
         res.status(response.code).json({
           message: response.message,
-          exercise: exercise.rows[0],
+          exercise: workoutExercise.rows[0],
           dailyWorkoutId: response.dailyWorkoutId,
         });
       } catch (err) {
