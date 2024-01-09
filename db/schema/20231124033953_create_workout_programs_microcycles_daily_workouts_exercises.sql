@@ -12,6 +12,7 @@ CREATE TABLE microcycles(
   id SERIAL PRIMARY KEY,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   microcycle_number SMALLINT NOT NULL,
+  phase VARCHAR(70),
   workout_program_id INT REFERENCES workout_programs(id) ON DELETE CASCADE
 );
 
@@ -30,18 +31,18 @@ CREATE TABLE exercises(
   id SERIAL PRIMARY KEY,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   name VARCHAR(255) NOT NULL,
-  number_sets SMALLINT NOT NULL,
-  number_reps SMALLINT NOT NULL,
-  rpe DECIMAL,
-  percentage SMALLINT,
   type VARCHAR(15) NOT NULL,
   variant VARCHAR(15)
 );
 
-DROP TABLE IF EXISTS daily_workout_exercises CASCADE;
+DROP TABLE IF EXISTS workout_exercises CASCADE;
 
-CREATE TABLE daily_workout_exercises(
+CREATE TABLE workout_exercises(
   id SERIAL PRIMARY KEY,
   daily_workout_id INTEGER REFERENCES daily_workouts(id) ON DELETE CASCADE,
-  exercise_id INTEGER REFERENCES exercises(id) ON DELETE CASCADE
+  exercise_id INTEGER REFERENCES exercises(id) ON DELETE CASCADE,
+  sets SMALLINT NOT NULL,
+  reps SMALLINT NOT NULL,
+  rpe DECIMAL,
+  percentage SMALLINT
 )
