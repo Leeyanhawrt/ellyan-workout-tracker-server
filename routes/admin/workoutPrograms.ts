@@ -347,7 +347,8 @@ module.exports = (pool: Pool) => {
           `SELECT exercises.id, name, sets, reps, rpe, percentage, type, variant
             FROM exercises
             JOIN workout_exercises ON exercises.id = workout_exercises.exercise_id
-            WHERE daily_workout_id = $1;`,
+            WHERE daily_workout_id = $1
+            ORDER BY workout_exercises.id;`,
           [copiedDailyWorkouts.rows[i].id]
         );
 

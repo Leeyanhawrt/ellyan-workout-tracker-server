@@ -245,7 +245,8 @@ module.exports = (pool) => {
                 const workoutExercises = yield pool.query(`SELECT exercises.id, name, sets, reps, rpe, percentage, type, variant
             FROM exercises
             JOIN workout_exercises ON exercises.id = workout_exercises.exercise_id
-            WHERE daily_workout_id = $1;`, [copiedDailyWorkouts.rows[i].id]);
+            WHERE daily_workout_id = $1
+            ORDER BY workout_exercises.id;`, [copiedDailyWorkouts.rows[i].id]);
                 // Insert the copied exercises into each new daily workout
                 for (let j = 0; j < workoutExercises.rows.length; j++) {
                     const { id, sets, reps, rpe, percentage } = workoutExercises.rows[j];
