@@ -90,8 +90,6 @@ module.exports = (pool: Pool) => {
           [req.params.id]
         );
 
-        console.log("Jan 11");
-
         res.json(exercises.rows);
       } catch (err) {
         console.log(err);
