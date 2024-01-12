@@ -86,4 +86,3 @@ module.exports = (pool) => {
     }));
     return router;
 };
-console.log("Work on seperate branch");
