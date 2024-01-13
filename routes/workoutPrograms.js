@@ -52,6 +52,16 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Fetching Daily Workouts");
         }
     }));
+    router.get("/user_workout/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const userWorkout = yield pool.query(`SELECT reps, sets, rpe, weight FROM user_workouts WHERE workout_exercise_id = $1 AND user_id = $2`, [req.params.id, req.user]);
+            res.json(userWorkout.rows[0]);
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).json("Server Error Fetching User Workouts");
+        }
+    }));
     router.get("/exercise_list/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const exercises = yield pool.query(`SELECT 
