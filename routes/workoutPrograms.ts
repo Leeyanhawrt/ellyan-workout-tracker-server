@@ -33,8 +33,6 @@ module.exports = (pool: Pool) => {
     }
   );
 
-  console.log("Figure out delayed loading");
-
   router.get(
     "/daily_workout/:id",
     authorization,
