@@ -54,7 +54,7 @@ module.exports = (pool) => {
     }));
     router.get("/user_workout/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const userWorkout = yield pool.query(`SELECT reps, sets, rpe, weight FROM user_workouts WHERE workout_exercise_id = $1 AND user_id = $2`, [req.params.id, req.user]);
+            const userWorkout = yield pool.query(`SELECT rpe FROM user_workouts WHERE workout_exercise_id = $1 AND user_id = $2`, [req.params.id, req.user]);
             res.json(userWorkout.rows[0]);
         }
         catch (err) {
