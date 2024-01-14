@@ -25,8 +25,6 @@ module.exports = (pool: Pool) => {
           [req.params.id]
         );
 
-        console.log("Working on branch");
-
         res.json(microcycles.rows);
       } catch (err) {
         console.log(err);
