@@ -64,7 +64,7 @@ module.exports = (pool: Pool) => {
     async (req: Request, res: Response) => {
       try {
         const userWorkout = await pool.query(
-          `SELECT rpe FROM user_workouts WHERE workout_exercise_id = $1 AND user_id = $2`,
+          `SELECT rpe AS "userRpe" FROM user_workouts WHERE workout_exercise_id = $1 AND user_id = $2`,
           [req.params.workoutExerciseId, req.params.userId]
         );
 
