@@ -34,15 +34,3 @@ CREATE TABLE exercises(
   type VARCHAR(15) NOT NULL,
   variant VARCHAR(15)
 );
-
-DROP TABLE IF EXISTS workout_exercises CASCADE;
-
-CREATE TABLE workout_exercises(
-  id SERIAL PRIMARY KEY,
-  daily_workout_id INTEGER REFERENCES daily_workouts(id) ON DELETE CASCADE,
-  exercise_id INTEGER REFERENCES exercises(id) ON DELETE CASCADE,
-  sets SMALLINT NOT NULL,
-  reps SMALLINT NOT NULL,
-  rpe DECIMAL,
-  percentage SMALLINT
-)
