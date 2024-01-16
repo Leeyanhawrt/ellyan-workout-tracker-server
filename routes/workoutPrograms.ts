@@ -76,6 +76,43 @@ module.exports = (pool: Pool) => {
     }
   );
 
+  router.put(
+    "/user_workout/:workoutExerciseId",
+    authorization,
+    async (req: Request, res: Response) => {
+      const { userRpe } = req.body;
+
+      const rpeArray = userRpe.split(" ").map(Number);
+
+      try {
+        const updatedUserWorkout = await pool.query(
+          `UPDATE user_workouts SET rpe = $1::decimal[] WHERE user_id = $2 AND workout_exercise_id = $3 RETURNING rpe AS "userRpe"`,
+          [rpeArray, req.user, req.params.workoutExerciseId]
+        );
+
+        if (updatedUserWorkout.rows.length > 0) {
+          return res.status(200).json({
+            message: "Successfully Updated RPE",
+            userWorkout: updatedUserWorkout.rows[0],
+          });
+        }
+
+        const newUserWorkout = await pool.query(
+          `INSERT INTO user_workouts (rpe, user_id, workout_exercise_id) VALUES ($1, $2, $3) RETURNING rpe AS "userRpe"`,
+          [rpeArray, req.user, req.params.workoutExerciseId]
+        );
+
+        res.status(201).json({
+          message: "Successfully Inputted RPE",
+          userWorkout: newUserWorkout.rows[0],
+        });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server Error Updating RPE" });
+      }
+    }
+  );
+
   router.get(
     "/exercise_list/:id",
     authorization,
