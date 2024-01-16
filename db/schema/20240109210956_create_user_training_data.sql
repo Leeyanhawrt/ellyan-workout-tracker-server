@@ -8,7 +8,7 @@ CREATE TABLE workout_exercises(
   reps SMALLINT NOT NULL,
   rpe DECIMAL,
   percentage SMALLINT
-)
+);
 
 DROP TABLE IF EXISTS user_workouts CASCADE;
 
