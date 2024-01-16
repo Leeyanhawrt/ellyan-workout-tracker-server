@@ -36,7 +36,7 @@ const seedUser = async () => {
   const workoutProgram = 1;
   const gender = "male";
   const bodyweight = 178;
-  const roles = ["member", "admin"];
+  const roles = ["member"];
 
   try {
     const hashedPassword = await hashPassword(password);
