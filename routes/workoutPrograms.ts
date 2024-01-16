@@ -90,6 +90,8 @@ module.exports = (pool: Pool) => {
           [req.params.id]
         );
 
+        console.log("Adjust personal record table to be more flexible");
+
         res.json(exercises.rows);
       } catch (err) {
         console.log(err);
