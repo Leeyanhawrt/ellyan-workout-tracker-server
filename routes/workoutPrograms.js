@@ -35,7 +35,6 @@ module.exports = (pool) => {
             res.status(500).json("Server Error Fetching Microcycles");
         }
     }));
-    console.log("Figure out delayed loading");
     router.get("/daily_workout/:id", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const dailyWorkouts = yield pool.query(`SELECT 
