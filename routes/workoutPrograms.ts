@@ -82,7 +82,51 @@ module.exports = (pool: Pool) => {
     async (req: Request, res: Response) => {
       const { userRpe } = req.body;
 
-      const rpeArray = userRpe.split(" ").map(Number);
+      const rpeArray = userRpe.trimEnd().split(" ").map(Number);
+
+      let validArray = true;
+
+      type UserWorkoutResponse = {
+        error: string;
+      };
+
+      let response: UserWorkoutResponse = {
+        error: "",
+      };
+
+      const rpeOverBounderies = rpeArray.some((value: number) => {
+        return value > 10 || value < 1;
+      });
+
+      const nonNumber = rpeArray.some((value: number) => {
+        return isNaN(value);
+      });
+
+      const decimalRegex = /^(|([1-9]|10|10\.0|10\.5|[1-9](\.0|\.5)?))$/;
+
+      const validDecimal = rpeArray.every((value: number) => {
+        return decimalRegex.test(value.toString());
+      });
+
+      if (!validDecimal) {
+        validArray = false;
+        response.error =
+          "Invalid RPE input. Please enter a number between 1 and 10, in 0.5 increments.";
+      }
+
+      if (rpeOverBounderies) {
+        validArray = false;
+        response.error = "RPE Can't Be > 10 Or < 1";
+      }
+
+      if (nonNumber) {
+        validArray = false;
+        response.error = "RPE Can Only Be A Number";
+      }
+
+      if (!validArray) {
+        return res.status(500).json({ error: response.error });
+      }
 
       try {
         const updatedUserWorkout = await pool.query(

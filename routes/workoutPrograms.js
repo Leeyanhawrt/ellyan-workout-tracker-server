@@ -64,7 +64,37 @@ module.exports = (pool) => {
     }));
     router.put("/user_workout/:workoutExerciseId", authorization, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { userRpe } = req.body;
-        const rpeArray = userRpe.split(" ").map(Number);
+        const rpeArray = userRpe.trimEnd().split(" ").map(Number);
+        let validArray = true;
+        let response = {
+            error: "",
+        };
+        const rpeOverBounderies = rpeArray.some((value) => {
+            return value > 10 || value < 1;
+        });
+        const nonNumber = rpeArray.some((value) => {
+            return isNaN(value);
+        });
+        const decimalRegex = /^(|([1-9]|10|10\.0|10\.5|[1-9](\.0|\.5)?))$/;
+        const validDecimal = rpeArray.every((value) => {
+            return decimalRegex.test(value.toString());
+        });
+        if (!validDecimal) {
+            validArray = false;
+            response.error =
+                "Invalid RPE input. Please enter a number between 1 and 10, in 0.5 increments.";
+        }
+        if (rpeOverBounderies) {
+            validArray = false;
+            response.error = "RPE Can't Be > 10 Or < 1";
+        }
+        if (nonNumber) {
+            validArray = false;
+            response.error = "RPE Can Only Be A Number";
+        }
+        if (!validArray) {
+            return res.status(500).json({ error: response.error });
+        }
         try {
             const updatedUserWorkout = yield pool.query(`UPDATE user_workouts SET rpe = $1::decimal[] WHERE user_id = $2 AND workout_exercise_id = $3 RETURNING rpe AS "userRpe"`, [rpeArray, req.user, req.params.workoutExerciseId]);
             if (updatedUserWorkout.rows.length > 0) {
