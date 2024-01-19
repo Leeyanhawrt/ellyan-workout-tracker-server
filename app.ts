@@ -34,8 +34,6 @@ app.use("/testimonial", testimonialRoutes(pool));
 app.use("/workout_program", workoutProgramRoutes(pool));
 app.use("/oAuth", oAuthRoutes(pool));
 
-console.log("Google oauth");
-
 // Admin Resource Mounting
 app.use("/admin/users", adminUserRoutes(pool));
 app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(pool));
