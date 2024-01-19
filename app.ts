@@ -16,6 +16,7 @@ configureCors(app);
 
 // Resource Routes
 const authenticationRoutes = require("./routes/jwtAuth");
+const oAuthRoutes = require("./routes/oAuth");
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
 const dashboardRoutes = require("./routes/dashboard");
@@ -31,6 +32,9 @@ app.use("/dashboard", dashboardRoutes(pool));
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
 app.use("/workout_program", workoutProgramRoutes(pool));
+app.use("/oAuth", oAuthRoutes(pool));
+
+console.log("Google oauth");
 
 // Admin Resource Mounting
 app.use("/admin/users", adminUserRoutes(pool));
