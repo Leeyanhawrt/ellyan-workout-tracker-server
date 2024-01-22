@@ -20,6 +20,7 @@ const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
 const dashboardRoutes = require("./routes/dashboard");
 const workoutProgramRoutes = require("./routes/workoutPrograms");
+const oAuthRoutes = require("./routes/oAuth");
 
 // Admin Resource Routes
 const adminUserRoutes = require("./routes/admin/users");
@@ -31,6 +32,7 @@ app.use("/dashboard", dashboardRoutes(pool));
 app.use("/user", profileRoutes(pool));
 app.use("/testimonial", testimonialRoutes(pool));
 app.use("/workout_program", workoutProgramRoutes(pool));
+app.use("/oauth", oAuthRoutes(pool));
 
 // Admin Resource Mounting
 app.use("/admin/users", adminUserRoutes(pool));

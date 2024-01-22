@@ -21,6 +21,7 @@ const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
 const dashboardRoutes = require("./routes/dashboard");
 const workoutProgramRoutes = require("./routes/workoutPrograms");
+const oAuthRoutes = require("./routes/oAuth");
 // Admin Resource Routes
 const adminUserRoutes = require("./routes/admin/users");
 const adminWorkoutProgramsRoutes = require("./routes/admin/workoutPrograms");
@@ -30,6 +31,7 @@ app.use("/dashboard", dashboardRoutes(db_config_js_1.default));
 app.use("/user", profileRoutes(db_config_js_1.default));
 app.use("/testimonial", testimonialRoutes(db_config_js_1.default));
 app.use("/workout_program", workoutProgramRoutes(db_config_js_1.default));
+app.use("/oauth", oAuthRoutes(db_config_js_1.default));
 // Admin Resource Mounting
 app.use("/admin/users", adminUserRoutes(db_config_js_1.default));
 app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(db_config_js_1.default));
