@@ -39,5 +39,3 @@ app.use("/admin/users", adminUserRoutes(pool));
 app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(pool));
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
-
-console.log("Study for aws cloud practitoner");
