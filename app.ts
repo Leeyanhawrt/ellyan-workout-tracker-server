@@ -39,3 +39,5 @@ app.use("/admin/users", adminUserRoutes(pool));
 app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(pool));
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+console.log("Last day studying for CPP");
