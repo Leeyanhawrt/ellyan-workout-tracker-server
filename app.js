@@ -17,6 +17,7 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 (0, cors_js_1.default)(app);
 // Resource Routes
 const authenticationRoutes = require("./routes/jwtAuth");
+const oAuthRoutes = require("./routes/oAuth");
 const profileRoutes = require("./routes/users");
 const testimonialRoutes = require("./routes/testimonials");
 const dashboardRoutes = require("./routes/dashboard");
@@ -30,6 +31,7 @@ app.use("/dashboard", dashboardRoutes(db_config_js_1.default));
 app.use("/user", profileRoutes(db_config_js_1.default));
 app.use("/testimonial", testimonialRoutes(db_config_js_1.default));
 app.use("/workout_program", workoutProgramRoutes(db_config_js_1.default));
+app.use("/oAuth", oAuthRoutes(db_config_js_1.default));
 // Admin Resource Mounting
 app.use("/admin/users", adminUserRoutes(db_config_js_1.default));
 app.use("/admin/workout_programs", adminWorkoutProgramsRoutes(db_config_js_1.default));

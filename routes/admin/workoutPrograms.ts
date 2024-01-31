@@ -195,7 +195,7 @@ module.exports = (pool: Pool) => {
           exercise = existingExercise;
         } else {
           exercise = await pool.query(
-            `INSERT INTO exercises (name, type, variant) VALUES ($1, $2, $3) RETURNING id, name, type, variant`,
+            `INSERT INTO exercises (name, type, variant) VALUES ($1, $2, $3) RETURNING id`,
             [sanitizedParams.exerciseName, type, variant]
           );
         }
@@ -206,13 +206,12 @@ module.exports = (pool: Pool) => {
         let workoutExercise;
 
         if (id) {
-          workoutExercise = await pool.query(
+          await pool.query(
             `UPDATE workout_exercises 
             SET exercise_id = $1, sets = $2, reps = $3, rpe = $4, percentage = $5 
             FROM exercises 
             WHERE workout_exercises.exercise_id = exercises.id 
-              AND workout_exercises.id = $6 
-            RETURNING workout_exercises.id, exercises.name, workout_exercises.percentage, workout_exercises.rpe, workout_exercises.reps, workout_exercises.sets, exercises.type, exercises.variant;`,
+              AND workout_exercises.id = $6`,
             [
               exerciseId,
               sets,
@@ -222,6 +221,15 @@ module.exports = (pool: Pool) => {
               id,
             ]
           );
+
+          workoutExercise = await pool.query(
+            `SELECT workout_exercises.id, exercises.name, workout_exercises.percentage, workout_exercises.rpe, workout_exercises.reps, workout_exercises.sets, exercises.type, exercises.variant 
+            FROM workout_exercises 
+            JOIN exercises ON exercises.id = workout_exercises.exercise_id
+            WHERE workout_exercises.id = $1`,
+            [id]
+          );
+
           action = "update";
         } else {
           workoutExercise = await pool.query(
@@ -249,13 +257,11 @@ module.exports = (pool: Pool) => {
         type ExerciseResponse = {
           code: number;
           message: string;
-          dailyWorkoutId: number | undefined;
         };
 
         let response: ExerciseResponse = {
           code: 0,
           message: "",
-          dailyWorkoutId: undefined,
         };
 
         if (action === "create") {
@@ -264,13 +270,11 @@ module.exports = (pool: Pool) => {
         } else if (action === "update") {
           response.code = 200;
           response.message = "Successfully Updated Exercise";
-          response.dailyWorkoutId = workoutExercise.rows[0].id;
         }
 
         res.status(response.code).json({
           message: response.message,
           exercise: workoutExercise.rows[0],
-          dailyWorkoutId: response.dailyWorkoutId,
         });
       } catch (err) {
         await pool.query("ROLLBACK");
