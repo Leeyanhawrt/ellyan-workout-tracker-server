@@ -201,5 +201,3 @@ module.exports = (pool: Pool) => {
 
   return router;
 };
-
-console.log("Do twitch coding for sister");
