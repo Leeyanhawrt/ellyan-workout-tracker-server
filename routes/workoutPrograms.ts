@@ -201,3 +201,5 @@ module.exports = (pool: Pool) => {
 
   return router;
 };
+
+console.log("Need a way to auto increase rpe for next cycle a bit tedious");
