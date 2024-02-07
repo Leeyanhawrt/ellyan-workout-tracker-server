@@ -201,3 +201,5 @@ module.exports = (pool: Pool) => {
 
   return router;
 };
+
+console.log("Apply for more jobs!");

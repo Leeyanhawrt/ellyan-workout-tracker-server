@@ -150,3 +150,4 @@ module.exports = (pool) => {
     }));
     return router;
 };
+console.log("Apply for more jobs!");
