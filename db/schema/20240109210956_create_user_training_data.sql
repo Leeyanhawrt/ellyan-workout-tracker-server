@@ -20,4 +20,3 @@ CREATE TABLE user_workouts(
   workout_exercise_id INT REFERENCES workout_exercises(id) ON DELETE CASCADE
 );
 
-Chinese New Year!
